@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: schedule
+    ports:
+      - "3306:3306"
+    networks:
+      - schedule-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"
+
+networks:
+  schedule-network:
+
+volumes:
+  mysql_data:
