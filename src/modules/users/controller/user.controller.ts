@@ -9,6 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 
+import { Public } from 'src/auth/decorator/auth.decorator';
+
 import { UserService } from '../service/user.service';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { UpdateUserDTO } from '../dto/update-user.dto';
@@ -45,7 +47,7 @@ export class UserController {
       deletedAt: deletedAt,
     });
   }
-
+  @Public()
   @Post()
   createUser(@Body() data: CreateUserDTO) {
     return this.userService.createUser(data);
