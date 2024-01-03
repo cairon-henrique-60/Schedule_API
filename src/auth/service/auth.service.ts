@@ -6,7 +6,6 @@ import { compare } from 'bcrypt';
 import { User } from 'src/modules/users/entities/user.entity';
 import { UserService } from 'src/modules/users/service/user.service';
 import { AccessDTO } from '../dto/access.dto';
-import { PayloadLogin } from '../dto/payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +27,7 @@ export class AuthService {
 
     return {
       user: user,
-      accessToken: this.jwtService.sign(new PayloadLogin(user)),
+      accessToken: this.jwtService.sign({ ...user }),
     };
   }
 }
