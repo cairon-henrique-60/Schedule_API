@@ -1,6 +1,10 @@
-import { User } from 'src/modules/users/entities/user.entity';
+interface userAuthentica {
+  id: number;
+  user_name: string;
+  user_email: string;
+}
 
 export interface AccessDTO {
-  user: User;
+  user: userAuthentica;
   accessToken: string;
 }
