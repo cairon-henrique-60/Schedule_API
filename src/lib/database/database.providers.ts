@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 
+import { ENV_VARIABLES } from 'src/config/env.config';
+
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
@@ -9,8 +11,8 @@ export const databaseProviders = [
         host: 'localhost',
         port: 3306,
         username: 'root',
-        password: process.env.DATABASE_ROOT_PASSWORD,
-        database: process.env.DATABASE_DATABASE_NAME,
+        password: ENV_VARIABLES.DATABASE_ROOT_PASSWORD,
+        database: ENV_VARIABLES.DATABASE_DATABASE_NAME,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         migrations: [__dirname + '/**/migrations/{*.ts,*.js}'],
         synchronize: false,

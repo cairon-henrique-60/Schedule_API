@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { Public } from 'src/auth/decorator/auth.decorator';
+import { Public } from 'src/modules/auth/decorator/auth.decorator';
 
 import { UserService } from '../service/user.service';
 import { CreateUserDTO } from '../dto/create-user.dto';

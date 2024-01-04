@@ -7,6 +7,7 @@ import { AuthService } from './service/auth.service';
 
 import { UserModule } from 'src/modules/users/user.module';
 import { AuthGuard } from './strategies/auth.guard';
+import { ENV_VARIABLES } from 'src/config/env.config';
 
 @Module({
   imports: [
@@ -14,8 +15,8 @@ import { AuthGuard } from './strategies/auth.guard';
     JwtModule.registerAsync({
       useFactory: () => ({
         global: true,
-        secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
+        secret: ENV_VARIABLES.JWT_SECRET,
+        signOptions: { expiresIn: ENV_VARIABLES.JWT_EXPIRES_IN },
       }),
     }),
   ],
