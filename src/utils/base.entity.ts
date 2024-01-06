@@ -1,27 +1,52 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
+  BeforeRemove,
   CreateDateColumn,
+  UpdateDateColumn,
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
+import * as moment from 'moment-timezone';
 
 @Entity()
 export class Base {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @CreateDateColumn({ type: 'date' })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: string;
 
   @UpdateDateColumn({
-    type: 'date',
-    onUpdate: 'NOW()',
+    type: 'timestamp',
     default: null,
-    nullable: true,
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: string | null;
 
-  @DeleteDateColumn({ type: 'date', default: null })
+  @DeleteDateColumn({ type: 'timestamp', default: null })
   deletedAt: string | null;
+
+  @BeforeInsert()
+  updateCreateDate() {
+    const brazilTimeZone = 'America/Sao_Paulo';
+    this.createdAt = moment().tz(brazilTimeZone).format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  @BeforeUpdate()
+  updateUpdateDate() {
+    if (this.updatedAt === null) {
+      const brazilTimeZone = 'America/Sao_Paulo';
+      this.updatedAt = moment()
+        .tz(brazilTimeZone)
+        .format('YYYY-MM-DD HH:mm:ss');
+    }
+  }
+
+  @BeforeRemove()
+  updateDeleteDate() {
+    const brazilTimeZone = 'America/Sao_Paulo';
+    this.deletedAt = moment().tz(brazilTimeZone).format('YYYY-MM-DD HH:mm:ss');
+  }
 }
