@@ -30,6 +30,6 @@ services:
 
 networks:
   schedule-network:
-
+      driver: bridge
 volumes:
-  mysql_data:
+  mysql_data: {}
