@@ -8,15 +8,20 @@ import {
 
 @Entity()
 export class Base {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn({ type: 'date' })
   createdAt: string;
 
-  @UpdateDateColumn({ type: 'date' })
-  updatedAt: string;
+  @UpdateDateColumn({
+    type: 'date',
+    onUpdate: 'NOW()',
+    default: null,
+    nullable: true,
+  })
+  updatedAt: string | null;
 
-  @DeleteDateColumn({ type: 'date' })
-  deletedAt: string;
+  @DeleteDateColumn({ type: 'date', default: null })
+  deletedAt: string | null;
 }

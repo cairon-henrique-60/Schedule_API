@@ -21,6 +21,12 @@ services:
       - mysql
     ports:
       - "3000:3000"
+    environment:
+      NODE_ENV: "development"
+      DATABASE_ROOT_PASSWORD: root
+      DATABASE_DATABASE_NAME: schedule
+      JWT_SECRET: scheduleAPIServiceModule
+      JWT_EXPIRES_IN: 1h
 
 networks:
   schedule-network:

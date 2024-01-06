@@ -16,9 +16,9 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userRepository.findOne({
-      where: { id: id },
+      where: { id },
       select: [
         'id',
         'user_name',
@@ -85,7 +85,7 @@ export class UserService {
     return newUser as User;
   }
   async updateUser(
-    id: number,
+    id: string,
     { current_password, ...rest }: UpdateUserDTO,
   ): Promise<User> {
     const user = await this.findOne(id);
@@ -102,7 +102,7 @@ export class UserService {
     return this.findOne(id);
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     const isUser = await this.findOne(id);
 
     if (!isUser)

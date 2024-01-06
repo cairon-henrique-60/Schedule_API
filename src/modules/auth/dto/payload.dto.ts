@@ -1,7 +1,7 @@
 import { User } from 'src/modules/users/entities/user.entity';
 
 export class PayloadLogin {
-  id: number;
+  id: string;
   name: string;
   email: string;
 
