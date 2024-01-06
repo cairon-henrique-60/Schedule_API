@@ -9,11 +9,14 @@ export const updateUserSchema = z
     password: z.string().optional(),
     phone_number: z.string().optional().nullable(),
   })
-  .refine((data) => {
-    if (data.password && !data.current_password) {
-      throw new Error('current_password is required when password is provided');
-    }
-    return true;
-  });
+  .refine(
+    (data) => {
+      if (data.password && !data.current_password) {
+        return false;
+      }
+      return true;
+    },
+    { message: 'current_password is required when password is provided' },
+  );
 
 export class UpdateUserDTO extends createZodDto(updateUserSchema) {}
