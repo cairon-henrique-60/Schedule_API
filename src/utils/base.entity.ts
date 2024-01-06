@@ -20,12 +20,11 @@ export class Base {
 
   @UpdateDateColumn({
     type: 'timestamp',
-    default: null,
-    onUpdate: 'CURRENT_TIMESTAMP',
+    default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: string | null;
 
-  @DeleteDateColumn({ type: 'timestamp', default: null })
+  @DeleteDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   deletedAt: string | null;
 
   @BeforeInsert()
@@ -35,13 +34,10 @@ export class Base {
   }
 
   @BeforeUpdate()
+  @BeforeInsert()
   updateUpdateDate() {
-    if (this.updatedAt === null) {
-      const brazilTimeZone = 'America/Sao_Paulo';
-      this.updatedAt = moment()
-        .tz(brazilTimeZone)
-        .format('YYYY-MM-DD HH:mm:ss');
-    }
+    const brazilTimeZone = 'America/Sao_Paulo';
+    this.updatedAt = moment().tz(brazilTimeZone).format('YYYY-MM-DD HH:mm:ss');
   }
 
   @BeforeRemove()

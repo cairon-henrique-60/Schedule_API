@@ -39,7 +39,7 @@ $ npm install
 $ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run dev
 
 # production mode
 $ npm run start:prod
@@ -58,15 +58,45 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Migrations
+```bash
+# create
+$ typeorm migration:create ./lib/database/migrations/--migration-name--
+
+# running the new migration
+$ typeorm migration:run -- -d ./lib/database/database.providers.ts
+
+# Rollbacks
+$ typeorm migration:revert --fake
+```
+
+## Container Docker
+```bash
+# running
+$ docker-compose up
+
+# list
+$ docker ps
+
+# stop
+$ docker stop id_container
+
+# destroy
+$ docker-compose down -v
+```
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Cairon Henrique](https://github.com/cairon-henrique-60)
+- LinkeIn - [https://www.linkedin.com/in/cairon-henrique-b88375224/](https://www.linkedin.com/in/cairon-henrique-b88375224/)
+- Author - [Gustavo Almeida](https://github.com/Guxxtavoww)
+- LinkeIn - [https://www.linkedin.com/in/gustavo-augusto-3a513b1b5/](https://www.linkedin.com/in/gustavo-augusto-3a513b1b5/)
+- Author - [Rodrigo Cordeiro](https://github.com/rodcordeiro)
+- LinkeIn - [https://www.linkedin.com/in/rodrigomcordeiro/](https://www.linkedin.com/in/rodrigomcordeiro/)
 
 ## License
 

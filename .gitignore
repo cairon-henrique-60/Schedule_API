@@ -2,7 +2,7 @@
 /dist
 /node_modules
 
-# environment variables
+# environment
 /.env
 /.env.production
 
