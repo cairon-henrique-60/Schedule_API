@@ -14,7 +14,12 @@ export class Base {
   @CreateDateColumn({ type: 'date' })
   createdAt: string;
 
-  @UpdateDateColumn({ type: 'date', default: null })
+  @UpdateDateColumn({
+    type: 'date',
+    onUpdate: 'NOW()',
+    default: null,
+    nullable: true,
+  })
   updatedAt: string | null;
 
   @DeleteDateColumn({ type: 'date', default: null })
