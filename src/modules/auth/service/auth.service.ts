@@ -19,9 +19,11 @@ export class AuthService {
       .findOneByEmail(user_email)
       .catch(() => undefined);
 
+    if (!user) throw new NotFoundException('Email or password invalid');
+
     const isMatch = await compare(pass, user.password);
 
-    if (!user || !isMatch) {
+    if (!isMatch) {
       throw new NotFoundException('Email or password invalid');
     }
 
