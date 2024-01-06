@@ -1,14 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
-import { envSchema } from './config/env.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   try {
-    envSchema.parse(process.env);
-
     app.enableCors();
     app.enableShutdownHooks();
     app.setGlobalPrefix('schedule');

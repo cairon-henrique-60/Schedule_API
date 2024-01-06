@@ -14,9 +14,9 @@ export class Base {
   @CreateDateColumn({ type: 'date' })
   createdAt: string;
 
-  @UpdateDateColumn({ type: 'date' })
-  updatedAt: string;
+  @UpdateDateColumn({ type: 'date', default: null })
+  updatedAt: string | null;
 
-  @DeleteDateColumn({ type: 'date' })
-  deletedAt: string;
+  @DeleteDateColumn({ type: 'date', default: null })
+  deletedAt: string | null;
 }
