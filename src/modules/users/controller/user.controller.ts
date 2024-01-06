@@ -21,7 +21,7 @@ export class UserController {
 
   @Get(':id')
   getById(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @Get('findUserByEmail/:email')
@@ -55,11 +55,11 @@ export class UserController {
 
   @Put(':id')
   updateUser(@Param('id') id: string, @Body() data: UpdateUserDTO) {
-    return this.userService.updateUser(+id, data);
+    return this.userService.updateUser(id, data);
   }
 
   @Delete(':id')
   deleteUser(@Param('id') id: string) {
-    return this.userService.deleteUser(+id);
+    return this.userService.deleteUser(id);
   }
 }

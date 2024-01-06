@@ -8,8 +8,8 @@ import {
 
 @Entity()
 export class Base {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn({ type: 'date' })
   createdAt: string;
