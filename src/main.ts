@@ -11,14 +11,18 @@ async function bootstrap() {
     app.enableShutdownHooks();
     app.setGlobalPrefix('schedule');
 
-    // Swagger config
+    /**
+     * -----------------------------------------------------------------------------
+     * Swagger
+     * -----------------------------------------------------------------------------
+     */
     const config = new DocumentBuilder()
-      .addBearerAuth()
       .setTitle('Schedule API example')
       .setDescription('The schedule API description')
-      .setVersion('1.0')
+      .setVersion('0.0.1')
       .addTag('auth')
       .addTag('user')
+      .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);
