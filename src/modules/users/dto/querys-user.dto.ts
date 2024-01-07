@@ -2,26 +2,14 @@ import { z } from 'nestjs-zod/z';
 import { createZodDto } from 'nestjs-zod';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
-export const querysUserSchema = z
-  .object({
-    user_name: z.string().optional(),
-    user_email: z.string().email().optional(),
-    current_password: z.string().optional(),
-    password: z.string().optional(),
-    phone_number: z.string().optional().nullable(),
-    createdAt: z.string().optional(),
-    updatedAt: z.string().optional(),
-    deletedAt: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.password && !data.current_password) {
-        return false;
-      }
-      return true;
-    },
-    { message: 'current_password is required when password is provided' },
-  );
+export const querysUserSchema = z.object({
+  user_name: z.string().optional(),
+  user_email: z.string().email().optional(),
+  phone_number: z.string().optional().nullable(),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+  deletedAt: z.string().optional(),
+});
 
 export class QueryUserDTO extends createZodDto(querysUserSchema) {
   /**
