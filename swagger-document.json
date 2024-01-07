@@ -1,0 +1,469 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/schedule/auth/login": {
+      "post": {
+        "operationId": "AuthController_signIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthUserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/schedule/auth/profile": {
+      "get": {
+        "operationId": "AuthController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/schedule/user/{id}": {
+      "get": {
+        "operationId": "UserController_getById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "UserController_updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "UserController_deleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/schedule/user/findUserByEmail/{email}": {
+      "get": {
+        "operationId": "UserController_getByEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/schedule/user": {
+      "get": {
+        "operationId": "UserController_list",
+        "parameters": [
+          {
+            "name": "user_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the user.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_email",
+            "required": false,
+            "in": "query",
+            "description": "Email of the user.",
+            "example": "levis@gmail.com",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone_number",
+            "required": false,
+            "in": "query",
+            "description": "Phone number of the user.",
+            "example": "997203320",
+            "schema": {
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "UserController_createUser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Schedule API example",
+    "description": "The schedule API description",
+    "version": "0.0.1",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "auth",
+      "description": ""
+    },
+    {
+      "name": "user",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "AuthUserDTO": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email of the user.",
+            "example": "levis@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password of the user.",
+            "example": "909090"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "user_email": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "deletedAt": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "user_name",
+          "password",
+          "user_email",
+          "phone_number",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "deletedAt"
+        ]
+      },
+      "CreateUserDTO": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "description": "Name of the user."
+          },
+          "password": {
+            "type": "string",
+            "description": "Password of the user.",
+            "example": "909090"
+          },
+          "user_email": {
+            "type": "string",
+            "description": "Email of the user.",
+            "example": "levis@gmail.com"
+          },
+          "phone_number": {
+            "type": "string",
+            "nullable": true,
+            "description": "Phone number of the user.",
+            "example": "997203320"
+          }
+        },
+        "required": [
+          "user_name",
+          "password",
+          "user_email"
+        ]
+      },
+      "UpdateUserDTO": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "description": "New name of the user."
+          },
+          "user_email": {
+            "type": "string",
+            "description": "New email of the user",
+            "example": "levis@gmail.com"
+          },
+          "current_password": {
+            "type": "string",
+            "description": "Current password of the user",
+            "example": "909090"
+          },
+          "password": {
+            "type": "string",
+            "description": "New password of the user",
+            "example": "90909012"
+          },
+          "phone_number": {
+            "type": "string",
+            "nullable": true,
+            "description": "New phone number of the user",
+            "example": "997221050"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,7 +1,9 @@
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import * as fs from 'fs';
 
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -25,6 +27,17 @@ async function bootstrap() {
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
+
+    /**
+     * -----------------------------------------------------------------------------
+     * Swagger documents
+     * -----------------------------------------------------------------------------
+     */
+    fs.writeFileSync(
+      'swagger-document.json',
+      JSON.stringify(document, null, 2),
+    );
+
     SwaggerModule.setup('api', app, document);
 
     await app.listen(3000);
