@@ -15,6 +15,7 @@ import { Public } from 'src/modules/auth/decorator/auth.decorator';
 import { UserService } from '../service/user.service';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { UpdateUserDTO } from '../dto/update-user.dto';
+import { QueryUserDTO } from '../dto/querys-user.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -32,22 +33,8 @@ export class UserController {
   }
 
   @Get()
-  list(
-    @Query('user_name') user_name?: string,
-    @Query('user_email') user_email?: string,
-    @Query('phone_number') phone_number?: string | null,
-    @Query('createdAt') createdAt?: string,
-    @Query('updatedAt') updatedAt?: string,
-    @Query('deletedAt') deletedAt?: string,
-  ) {
-    return this.userService.findAll({
-      user_name: user_name,
-      user_email: user_email,
-      phone_number: phone_number,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      deletedAt: deletedAt,
-    });
+  list(@Query() query: QueryUserDTO) {
+    return this.userService.findAll(query);
   }
   @Public()
   @Post()
