@@ -7,7 +7,7 @@ import { User } from '../entities/user.entity';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { UpdateUserDTO } from '../dto/update-user.dto';
 
-import { IUser } from '../interface/user.interface';
+import { QueryUserDTO } from '../dto/querys-user.dto';
 
 @Injectable()
 export class UserService {
@@ -35,8 +35,8 @@ export class UserService {
     return this.userRepository.findOne({ where: { user_email: email } });
   }
 
-  async findAll(params: IUser): Promise<User[]> {
-    const whereClause: IUser = {};
+  async findAll(params: QueryUserDTO): Promise<User[]> {
+    const whereClause: QueryUserDTO = {};
 
     Object.keys(params).forEach((key) => {
       if (params[key]) {

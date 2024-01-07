@@ -58,7 +58,20 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Swagger
+
+[http://localhost:3000/api](http://localhost:3000/api)
+
+
+## Generate CRUD
+
+```bash
+# Generate new module, service and controller
+$ nest g resource user 
+```
+
 ## Migrations
+
 ```bash
 # create
 $ typeorm migration:create ./lib/database/migrations/--migration-name--
@@ -71,6 +84,7 @@ $ typeorm migration:revert --fake
 ```
 
 ## Container Docker
+
 ```bash
 # running
 $ docker-compose up
