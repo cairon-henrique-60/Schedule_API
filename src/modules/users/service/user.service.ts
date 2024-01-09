@@ -1,16 +1,16 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
+import { compare } from 'bcrypt';
 
 import { createPasswordHashed } from 'src/utils/password';
 import { NotFoundError } from 'src/http-exceptions/errors/types/NotFoundError';
+import { UnauthorizedError } from 'src/http-exceptions/errors/types/UnauthorizedError';
 
 import { User } from '../entities/user.entity';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { UpdateUserDTO } from '../dto/update-user.dto';
 
 import { QueryUserDTO } from '../dto/querys-user.dto';
-import { compare } from 'bcrypt';
-import { UnauthorizedError } from 'src/http-exceptions/errors/types/UnauthorizedError';
 
 @Injectable()
 export class UserService {
@@ -118,10 +118,9 @@ export class UserService {
   }
 
   async deleteUser(id: string) {
-    const isUser = await this.findOne(id);
+    const user = await this.findOne(id);
 
-    if (!isUser)
-      throw new HttpException('User Not Found', HttpStatus.BAD_REQUEST);
+    if (!user) throw new NotFoundError('User not found!');
 
     return this.userRepository.delete(id);
   }
