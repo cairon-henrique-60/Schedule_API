@@ -1,7 +1,10 @@
-import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
+import { compare } from 'bcrypt';
 
 import { createPasswordHashed } from 'src/utils/password';
+import { NotFoundError } from 'src/http-exceptions/errors/types/NotFoundError';
+import { UnauthorizedError } from 'src/http-exceptions/errors/types/UnauthorizedError';
 
 import { User } from '../entities/user.entity';
 import { CreateUserDTO } from '../dto/create-user.dto';
@@ -17,7 +20,7 @@ export class UserService {
   ) {}
 
   async findOne(id: string): Promise<User> {
-    return this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { id },
       select: [
         'id',
@@ -28,11 +31,25 @@ export class UserService {
         'updatedAt',
       ],
     });
+
+    if (!user) {
+      throw new NotFoundError('User not found!');
+    }
+
+    return user;
   }
 
   // This function by authenticate
   async findOneByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { user_email: email } });
+    const user = await this.userRepository.findOne({
+      where: { user_email: email },
+    });
+
+    if (!user) {
+      throw new NotFoundError('User not found!');
+    }
+
+    return user;
   }
 
   async findAll(params: QueryUserDTO): Promise<User[]> {
@@ -59,12 +76,6 @@ export class UserService {
   }
 
   async createUser({ password, ...rest }: CreateUserDTO): Promise<User> {
-    const isUser = await this.findOneByEmail(rest.user_email);
-
-    if (isUser) {
-      throw new HttpException('Email already in use', HttpStatus.BAD_REQUEST);
-    }
-
     const passwordHashed = await createPasswordHashed(password);
 
     const user = this.userRepository.create({
@@ -84,17 +95,21 @@ export class UserService {
 
     return newUser as User;
   }
+
   async updateUser(
     id: string,
     { current_password, ...rest }: UpdateUserDTO,
   ): Promise<User> {
     const user = await this.findOne(id);
 
-    if (current_password && user?.password !== current_password) {
-      throw new HttpException(
-        'Error in current password',
-        HttpStatus.BAD_REQUEST,
-      );
+    if (!user) {
+      throw new NotFoundError('User not found!');
+    }
+    if (current_password && rest.password) {
+      const isMatch = await compare(current_password, user.password);
+      if (!isMatch) {
+        throw new UnauthorizedError('Passowrd is not validate');
+      }
     }
 
     await this.userRepository.update(id, rest);
@@ -103,10 +118,9 @@ export class UserService {
   }
 
   async deleteUser(id: string) {
-    const isUser = await this.findOne(id);
+    const user = await this.findOne(id);
 
-    if (!isUser)
-      throw new HttpException('User Not Found', HttpStatus.BAD_REQUEST);
+    if (!user) throw new NotFoundError('User not found!');
 
     return this.userRepository.delete(id);
   }

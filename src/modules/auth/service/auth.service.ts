@@ -1,10 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { compare } from 'bcrypt';
 
 import { User } from 'src/modules/users/entities/user.entity';
 import { UserService } from 'src/modules/users/service/user.service';
+import { NotFoundError } from 'src/http-exceptions/errors/types/NotFoundError';
+import { UnauthorizedError } from 'src/http-exceptions/errors/types/UnauthorizedError';
+
 import { AccessDTO } from '../dto/access.dto';
 
 @Injectable()
@@ -19,12 +22,12 @@ export class AuthService {
       .findOneByEmail(user_email)
       .catch(() => undefined);
 
-    if (!user) throw new NotFoundException('Email or password invalid');
+    if (!user) throw new NotFoundError('Email or password invalid');
 
     const isMatch = await compare(pass, user.password);
 
     if (!isMatch) {
-      throw new NotFoundException('Email or password invalid');
+      throw new UnauthorizedError('Passowrd is not validate');
     }
 
     return {

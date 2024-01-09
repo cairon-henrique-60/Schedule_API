@@ -3,6 +3,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import * as fs from 'fs';
 
+import { UnauthorizedInterceptor } from 'src/http-exceptions/errors/interceptors/unauthorized.interceptor';
+import { NotFoundInterceptor } from 'src/http-exceptions/errors/interceptors/notFound.interceptor';
+import { DataBaseInterceptor } from './http-exceptions/errors/interceptors/dataBase.interceptor';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -12,6 +16,15 @@ async function bootstrap() {
     app.enableCors();
     app.enableShutdownHooks();
     app.setGlobalPrefix('schedule');
+
+    /**
+     * -----------------------------------------------------------------------------
+     * HTTP Interceptor
+     * -----------------------------------------------------------------------------
+     */
+    app.useGlobalInterceptors(new UnauthorizedInterceptor());
+    app.useGlobalInterceptors(new NotFoundInterceptor());
+    app.useGlobalInterceptors(new DataBaseInterceptor());
 
     /**
      * -----------------------------------------------------------------------------
