@@ -7,10 +7,12 @@ import {
   Post,
   Put,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { Public } from 'src/modules/auth/decorator/auth.decorator';
+import { DataBaseInterceptor } from 'src/http-exceptions/errors/interceptors/dataBase.interceptor';
 
 import { UserService } from '../service/user.service';
 import { CreateUserDTO } from '../dto/create-user.dto';
@@ -39,11 +41,13 @@ export class UserController {
   }
   @Public()
   @Post()
+  @UseInterceptors(DataBaseInterceptor)
   createUser(@Body() data: CreateUserDTO) {
     return this.userService.createUser(data);
   }
 
   @Put(':id')
+  @UseInterceptors(DataBaseInterceptor)
   updateUser(@Param('id') id: string, @Body() data: UpdateUserDTO) {
     return this.userService.updateUser(id, data);
   }
