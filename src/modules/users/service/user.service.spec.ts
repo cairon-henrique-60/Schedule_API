@@ -1,4 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { NotFoundException } from '@nestjs/common';
+
+import { Repository } from 'typeorm';
+
 import { randomUUID } from 'crypto';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
@@ -25,9 +29,12 @@ describe('UserService unit tests', () => {
   mockUser.updatedAt = new Date().toString();
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [...usersProviders, UserService],
+      providers: [
+        UserService,
+        { provide: 'USER_REPOSITORY', useClass: Repository },
+      ],
     }).compile();
 
     userService = module.get<UserService>(UserService);
@@ -49,11 +56,11 @@ describe('UserService unit tests', () => {
     });
 
     it('should throw NotFoundError if user is not found', async () => {
-      jest.spyOn(userService, 'findOne').mockResolvedValueOnce(null);
+      jest.spyOn(userService, 'findOne').mockResolvedValueOnce(undefined);
 
-      expect(await userController.getById('invalidId')).rejects.toThrowError(
-        NotFoundError,
-      );
+      await expect(async () => {
+        await userController.getById('invalidId');
+      }).rejects.toThrowError(NotFoundException);
     });
   });
 
@@ -110,7 +117,6 @@ describe('UserService unit tests', () => {
   });
 
   describe('updateUser', () => {
-    const id = 'validId';
     const updateUserDTO = {
       current_password: user_password,
       user_name: 'New Name',
@@ -124,7 +130,7 @@ describe('UserService unit tests', () => {
 
       expect(
         await userController.updateUser(mockUser.id, updateUserDTO),
-      ).toHaveBeenCalledWith(id);
+      ).toHaveBeenCalledWith(mockUser.id);
     });
 
     it('should throw NotFoundError if user is not found', async () => {
