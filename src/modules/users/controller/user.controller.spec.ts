@@ -128,7 +128,7 @@ describe('UserController unit tests', () => {
         affected: 1,
       });
 
-      await expect(userController.deleteUser('validId')).resolves.toBeDefined();
+      await expect(userController.deleteUser(mockUser.id)).resolves.toBeDefined();
     });
   });
 });
