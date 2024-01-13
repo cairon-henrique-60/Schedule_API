@@ -11,8 +11,8 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-import { Public } from 'src/modules/auth/decorator/auth.decorator';
-import { DataBaseInterceptor } from 'src/http-exceptions/errors/interceptors/dataBase.interceptor';
+import { Public } from '../../../modules/auth/decorator/auth.decorator';
+import { DataBaseInterceptor } from '../../../http-exceptions/errors/interceptors/dataBase.interceptor';
 
 import { UserService } from '../service/user.service';
 import { CreateUserDTO } from '../dto/create-user.dto';

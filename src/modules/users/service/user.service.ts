@@ -2,9 +2,9 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
 import { compare } from 'bcrypt';
 
-import { createPasswordHashed } from 'src/utils/password';
-import { NotFoundError } from 'src/http-exceptions/errors/types/NotFoundError';
-import { UnauthorizedError } from 'src/http-exceptions/errors/types/UnauthorizedError';
+import { createPasswordHashed } from '../../../utils/password';
+import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
+import { UnauthorizedError } from '../../../http-exceptions/errors/types/UnauthorizedError';
 
 import { User } from '../entities/user.entity';
 import { CreateUserDTO } from '../dto/create-user.dto';
