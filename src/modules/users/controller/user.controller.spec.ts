@@ -40,6 +40,10 @@ describe('UserController unit tests', () => {
     user_password = '3245324622';
   });
 
+  it('should be defined', () => {
+    expect(userService).toBeDefined();
+  });
+
   describe('findOne', () => {
     it('should return a user object when a valid id is provided', async () => {
       jest.spyOn(userService, 'findOne').mockResolvedValue(mockUser);

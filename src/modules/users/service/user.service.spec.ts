@@ -1,4 +1,4 @@
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { Like } from 'typeorm';
 import { randomUUID } from 'crypto';
 
@@ -8,11 +8,9 @@ import { UnauthorizedError } from '../../../http-exceptions/errors/types/Unautho
 import { UserService } from './user.service';
 import { User } from '../entities/user.entity';
 import { QueryUserDTO } from '../dto/querys-user.dto';
-import { UserController } from '../controller/user.controller';
 
 describe('UserService unit tests', () => {
   let userService: UserService;
-  let userController: UserController;
 
   let user_password: string;
 
@@ -34,8 +32,7 @@ describe('UserService unit tests', () => {
   mockUser.updatedAt = new Date().toString();
 
   beforeAll(async () => {
-    const module = await Test.createTestingModule({
-      controllers: [UserController],
+    const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserService,
         { provide: 'USER_REPOSITORY', useValue: mockService },
