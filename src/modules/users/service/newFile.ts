@@ -1,9 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
-
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 import { UnauthorizedError } from '../../../http-exceptions/errors/types/UnauthorizedError';
-
 import { UserService } from './user.service';
 import { User } from '../entities/user.entity';
 import { QueryUserDTO } from '../dto/querys-user.dto';
@@ -34,6 +32,12 @@ describe('UserService unit tests', () => {
     userController = module.get<UserController>(UserController);
 
     user_password = '3245324622';
+  });
+  beforeEach(() => {
+    catsService = new CatsService();
+    catsController = new CatsController(catsService);
+    userService = new UserService(User);
+    userController = new UserController(userService);
   });
 
   it('should be defined', () => {
