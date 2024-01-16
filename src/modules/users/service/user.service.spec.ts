@@ -3,6 +3,7 @@ import { Like } from 'typeorm';
 import { randomUUID } from 'crypto';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
+import { BadRequestError } from '../../../http-exceptions/errors/types/BadRequestError';
 import { UnauthorizedError } from '../../../http-exceptions/errors/types/UnauthorizedError';
 
 import { UserService } from './user.service';
@@ -237,6 +238,64 @@ describe('UserService unit tests', () => {
       expect(userService.updateUser).toHaveBeenCalledWith(
         'invalidId',
         updateUserDTO,
+      );
+    });
+
+    it('should throw BadRequestError if is not password is valid and current_password undefined', async () => {
+      const updateUserDTOErro = {
+        user_name: 'New Name',
+        user_email: 'newemail@example.com',
+        password: '3245324622',
+        phone_number: '1234567890',
+      };
+
+      jest
+        .spyOn(userService, 'updateUser')
+        .mockRejectedValue(
+          new BadRequestError(
+            'Both current_password and password are required!',
+          ),
+        );
+
+      await expect(
+        userService.updateUser(mockUser.id, updateUserDTOErro),
+      ).rejects.toThrowError(BadRequestError);
+
+      expect(mockService.update).toHaveBeenCalledTimes(0);
+      expect(mockService.findOne).toHaveBeenCalledTimes(0);
+
+      expect(userService.updateUser).toHaveBeenCalledWith(
+        mockUser.id,
+        updateUserDTOErro,
+      );
+    });
+
+    it('should throw BadRequestError if is not password undefined and current_password is valid', async () => {
+      const updateUserDTOErro = {
+        user_name: 'New Name',
+        user_email: 'newemail@example.com',
+        current_password: user_password,
+        phone_number: '1234567890',
+      };
+
+      jest
+        .spyOn(userService, 'updateUser')
+        .mockRejectedValue(
+          new BadRequestError(
+            'Both current_password and password are required!',
+          ),
+        );
+
+      await expect(
+        userService.updateUser(mockUser.id, updateUserDTOErro),
+      ).rejects.toThrowError(BadRequestError);
+
+      expect(mockService.update).toHaveBeenCalledTimes(0);
+      expect(mockService.findOne).toHaveBeenCalledTimes(0);
+
+      expect(userService.updateUser).toHaveBeenCalledWith(
+        mockUser.id,
+        updateUserDTOErro,
       );
     });
 
