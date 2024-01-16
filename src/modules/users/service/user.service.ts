@@ -1,9 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
+
 import { compare } from 'bcrypt';
 
 import { createPasswordHashed } from '../../../utils/password';
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
+import { BadRequestError } from '../../../http-exceptions/errors/types/BadRequestError';
 import { UnauthorizedError } from '../../../http-exceptions/errors/types/UnauthorizedError';
 
 import { User } from '../entities/user.entity';
@@ -98,21 +100,36 @@ export class UserService {
 
   async updateUser(
     id: string,
-    { current_password, ...rest }: UpdateUserDTO,
+    { current_password, password, ...rest }: UpdateUserDTO,
   ): Promise<User> {
     const user = await this.findOne(id);
+    const userEmail = await this.findOneByEmail(user.user_email);
 
     if (!user) {
       throw new NotFoundError('User not found!');
     }
-    if (current_password && rest.password) {
-      const isMatch = await compare(current_password, user.password);
+
+    if (current_password !== undefined && password !== undefined) {
+      const isMatch = await compare(current_password, userEmail.password);
       if (!isMatch) {
-        throw new UnauthorizedError('Passowrd is not validate');
+        throw new UnauthorizedError('Password is not valid');
       }
+    } else if (current_password !== undefined || password !== undefined) {
+      throw new BadRequestError(
+        'Both current_password and password are required!',
+      );
     }
 
-    await this.userRepository.update(id, rest);
+    const newPassword = password
+      ? await createPasswordHashed(password)
+      : undefined;
+
+    const newParams: UpdateUserDTO = {
+      ...rest,
+      password: newPassword,
+    };
+
+    await this.userRepository.update(id, newParams);
 
     return this.findOne(id);
   }
