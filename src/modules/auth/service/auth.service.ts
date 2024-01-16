@@ -3,10 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 
 import { compare } from 'bcrypt';
 
-import { User } from 'src/modules/users/entities/user.entity';
-import { UserService } from 'src/modules/users/service/user.service';
-import { NotFoundError } from 'src/http-exceptions/errors/types/NotFoundError';
-import { UnauthorizedError } from 'src/http-exceptions/errors/types/UnauthorizedError';
+import { User } from '../../../modules/users/entities/user.entity';
+import { UserService } from '../../../modules/users/service/user.service';
+import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
+import { UnauthorizedError } from '../../../http-exceptions/errors/types/UnauthorizedError';
 
 import { AccessDTO } from '../dto/access.dto';
 

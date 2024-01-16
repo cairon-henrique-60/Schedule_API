@@ -8,6 +8,7 @@ import { NotFoundInterceptor } from 'src/http-exceptions/errors/interceptors/not
 import { DataBaseInterceptor } from './http-exceptions/errors/interceptors/dataBase.interceptor';
 
 import { AppModule } from './app.module';
+import { BadRequestInterceptor } from './http-exceptions/errors/interceptors/badRequest.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +24,7 @@ async function bootstrap() {
      * -----------------------------------------------------------------------------
      */
     app.useGlobalInterceptors(new UnauthorizedInterceptor());
+    app.useGlobalInterceptors(new BadRequestInterceptor());
     app.useGlobalInterceptors(new NotFoundInterceptor());
     app.useGlobalInterceptors(new DataBaseInterceptor());
 
