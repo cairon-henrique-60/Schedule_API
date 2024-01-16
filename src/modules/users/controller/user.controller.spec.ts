@@ -1,19 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Repository } from 'typeorm';
-
 import { randomUUID } from 'crypto';
 
-import { UserService } from '../service/user.service';
 import { User } from '../entities/user.entity';
+import { UserService } from '../service/user.service';
 import { QueryUserDTO } from '../dto/querys-user.dto';
 import { UserController } from '../controller/user.controller';
 
 describe('UserController unit tests', () => {
-  let userService: UserService;
   let userController: UserController;
 
   let user_password: string;
+
+  const mockService = {
+    findOne: jest.fn(),
+    findOneByEmail: jest.fn(),
+    findAll: jest.fn(),
+    createUser: jest.fn(),
+    updateUser: jest.fn(),
+    deleteUser: jest.fn(),
+  };
 
   const mockUser = new User();
   mockUser.id = randomUUID();
@@ -25,48 +31,48 @@ describe('UserController unit tests', () => {
   mockUser.updatedAt = new Date().toString();
   mockUser.deletedAt = new Date().toString();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [
-        UserService,
-        { provide: 'USER_REPOSITORY', useClass: Repository },
-      ],
+      providers: [{ provide: UserService, useValue: mockService }],
     }).compile();
 
-    userService = module.get<UserService>(UserService);
     userController = module.get<UserController>(UserController);
 
     user_password = '3245324622';
   });
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+    jest.restoreAllMocks();
+  });
+
   it('should be defined', () => {
-    expect(userService).toBeDefined();
+    expect(userController).toBeDefined();
   });
 
   describe('findOne', () => {
     it('should return a user object when a valid id is provided', async () => {
-      jest.spyOn(userService, 'findOne').mockResolvedValue(mockUser);
+      await userController.getById(mockUser.id);
 
-      await expect(userController.getById(mockUser.id)).resolves.toEqual(
-        mockUser,
-      );
+      expect(mockService.findOne).toHaveBeenCalledTimes(1);
+      expect(mockService.findOne).toHaveBeenCalledWith(mockUser.id);
     });
   });
 
   describe('findOneByEmail', () => {
     it('should find a user by email when it exists in the database', async () => {
-      jest.spyOn(userService, 'findOneByEmail').mockResolvedValue(mockUser);
+      await userController.getByEmail(mockUser.user_email);
 
-      await expect(
-        userController.getByEmail(mockUser.user_email),
-      ).resolves.toEqual(mockUser);
+      expect(mockService.findOneByEmail).toHaveBeenCalledTimes(1);
+      expect(mockService.findOneByEmail).toHaveBeenCalledWith(
+        mockUser.user_email,
+      );
     });
   });
 
   describe('findAll', () => {
     it('should return an empty array when no users match the query parameters', async () => {
-      const result = [mockUser];
       const params: QueryUserDTO = {
         user_name: 'John',
         user_email: 'john@example.com',
@@ -76,15 +82,15 @@ describe('UserController unit tests', () => {
         deletedAt: '2022-01-03',
       };
 
-      jest.spyOn(userService, 'findAll').mockResolvedValue(result);
+      await userController.list(params);
 
-      expect(userController.list(params)).resolves.toEqual(result);
+      expect(mockService.findAll).toHaveBeenCalledTimes(1);
+      expect(mockService.findAll).toHaveBeenCalledWith(params);
     });
   });
 
   describe('createUser', () => {
     it('should create a user with valid input data and password', async () => {
-      const result = mockUser;
       const createUserDTO = {
         user_name: 'John Doe',
         password: user_password,
@@ -92,11 +98,10 @@ describe('UserController unit tests', () => {
         phone_number: '1234567890',
       };
 
-      jest.spyOn(userService, 'createUser').mockResolvedValue(result);
+      await userController.createUser(createUserDTO);
 
-      const createdUser = await userController.createUser(createUserDTO);
-
-      expect(createdUser).toBe(result);
+      expect(mockService.createUser).toHaveBeenCalledTimes(1);
+      expect(mockService.createUser).toHaveBeenCalledWith(createUserDTO);
     });
   });
 
@@ -110,11 +115,10 @@ describe('UserController unit tests', () => {
     };
 
     it('should update user information when all input data is valid', async () => {
-      jest.spyOn(userService, 'updateUser').mockResolvedValue(mockUser);
-
       await userController.updateUser(mockUser.id, updateUserDTO);
 
-      expect(userService.updateUser).toHaveBeenCalledWith(
+      expect(mockService.updateUser).toHaveBeenCalledTimes(1);
+      expect(mockService.updateUser).toHaveBeenCalledWith(
         mockUser.id,
         updateUserDTO,
       );
@@ -123,12 +127,10 @@ describe('UserController unit tests', () => {
 
   describe('deleteUser', () => {
     it('should delete a user when a valid id is provided', async () => {
-      jest.spyOn(userService, 'deleteUser').mockResolvedValue({
-        raw: [],
-        affected: 1,
-      });
+      await userController.deleteUser(mockUser.id);
 
-      await expect(userController.deleteUser(mockUser.id)).resolves.toBeDefined();
+      expect(mockService.deleteUser).toHaveBeenCalledTimes(1);
+      expect(mockService.deleteUser).toHaveBeenCalledWith(mockUser.id);
     });
   });
 });

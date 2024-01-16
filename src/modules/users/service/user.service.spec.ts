@@ -207,7 +207,6 @@ describe('UserService unit tests', () => {
       const createdUser = await userService.createUser(createUserDTO);
 
       expect(userService.createUser).toHaveBeenCalledTimes(1);
-
       expect(userService.createUser).toHaveBeenCalledWith(createUserDTO);
 
       expect(createdUser).toBe(result);
