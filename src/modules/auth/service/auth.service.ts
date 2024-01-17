@@ -27,7 +27,7 @@ export class AuthService {
     const isMatch = await compare(pass, user.password);
 
     if (!isMatch) {
-      throw new UnauthorizedError('Passowrd is not validate');
+      throw new UnauthorizedError('Password is not validate');
     }
 
     return {
