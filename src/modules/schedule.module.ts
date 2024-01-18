@@ -4,8 +4,9 @@ import { DatabaseModule } from 'src/lib/database/database.module';
 
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
+import { ConfigAppModule } from './config/configAPP.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule],
+  imports: [ConfigAppModule, DatabaseModule, AuthModule, UserModule],
 })
 export class ScheduleModule {}
