@@ -4,10 +4,10 @@ services:
   mysql:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: schedule
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_DATABASE_NAME}
     ports:
-      - "3306:3306"
+      - "3306:${DB_PORT}"
     networks:
       - schedule-network
     volumes:
@@ -22,11 +22,11 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: "development"
-      DATABASE_ROOT_PASSWORD: root
-      DATABASE_DATABASE_NAME: schedule
-      JWT_SECRET: scheduleAPIServiceModule
-      JWT_EXPIRES_IN: 1h
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      DATABASE_DATABASE_NAME: ${DATABASE_DATABASE_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
 
 networks:
   schedule-network:
