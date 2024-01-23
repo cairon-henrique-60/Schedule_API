@@ -315,6 +315,249 @@
           }
         ]
       }
+    },
+    "/schedule/branchs/{id}": {
+      "get": {
+        "operationId": "BranchsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "branchs"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "BranchsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBranchDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "branchs"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "BranchsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branchs"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/schedule/branchs": {
+      "get": {
+        "operationId": "BranchsController_findAll",
+        "parameters": [
+          {
+            "name": "branch_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cnpj",
+            "required": false,
+            "in": "query",
+            "description": "CNPJ of the branch.",
+            "example": "12345678000200",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "street",
+            "required": false,
+            "in": "query",
+            "description": "Street of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cep",
+            "required": false,
+            "in": "query",
+            "description": "CEP of the branch.",
+            "example": "36150000",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "required": false,
+            "in": "query",
+            "description": "City of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "district",
+            "required": false,
+            "in": "query",
+            "description": "District of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "local_number",
+            "required": false,
+            "in": "query",
+            "description": "Number residence of the branch.",
+            "example": "230B",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "complements",
+            "required": false,
+            "in": "query",
+            "description": "Information additional of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Branch"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "branchs"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "BranchsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBranchDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "branchs"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -330,6 +573,10 @@
     },
     {
       "name": "user",
+      "description": ""
+    },
+    {
+      "name": "branchs",
       "description": ""
     }
   ],
@@ -378,6 +625,12 @@
             "type": "string",
             "nullable": true
           },
+          "branches": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Branch"
+            }
+          },
           "id": {
             "type": "string"
           },
@@ -398,6 +651,72 @@
           "password",
           "user_email",
           "phone_number",
+          "branches",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "deletedAt"
+        ]
+      },
+      "Branch": {
+        "type": "object",
+        "properties": {
+          "branch_name": {
+            "type": "string"
+          },
+          "cnpj": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "cep": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "local_number": {
+            "type": "string"
+          },
+          "complements": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "id": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "deletedAt": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "branch_name",
+          "cnpj",
+          "street",
+          "cep",
+          "city",
+          "user_id",
+          "district",
+          "local_number",
+          "complements",
+          "user",
           "id",
           "createdAt",
           "updatedAt",
@@ -461,6 +780,106 @@
             "nullable": true,
             "description": "New phone number of the user",
             "example": "997221050"
+          }
+        }
+      },
+      "CreateBranchDto": {
+        "type": "object",
+        "properties": {
+          "branch_name": {
+            "type": "string",
+            "description": "Name of the branch."
+          },
+          "cnpj": {
+            "type": "string",
+            "description": "CNPJ of the branch.",
+            "example": "12345678000200"
+          },
+          "street": {
+            "type": "string",
+            "description": "Street of the branch."
+          },
+          "cep": {
+            "type": "string",
+            "description": "CEP of the branch.",
+            "example": "36150000"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of the branch."
+          },
+          "district": {
+            "type": "string",
+            "description": "District of the branch."
+          },
+          "local_number": {
+            "type": "string",
+            "description": "Number residence of the branch.",
+            "example": "230B"
+          },
+          "complements": {
+            "type": "string",
+            "description": "Information additional of the branch."
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Affiliate user id (owner).",
+            "example": "ab#12342"
+          }
+        },
+        "required": [
+          "branch_name",
+          "cnpj",
+          "street",
+          "cep",
+          "city",
+          "district",
+          "local_number",
+          "user_id"
+        ]
+      },
+      "UpdateBranchDto": {
+        "type": "object",
+        "properties": {
+          "branch_name": {
+            "type": "string",
+            "description": "Name of the branch."
+          },
+          "cnpj": {
+            "type": "string",
+            "description": "CNPJ of the branch.",
+            "example": "12345678000200"
+          },
+          "street": {
+            "type": "string",
+            "description": "Street of the branch."
+          },
+          "cep": {
+            "type": "string",
+            "description": "CEP of the branch.",
+            "example": "36150000"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of the branch."
+          },
+          "district": {
+            "type": "string",
+            "description": "District of the branch."
+          },
+          "local_number": {
+            "type": "string",
+            "description": "Number residence of the branch.",
+            "example": "230B"
+          },
+          "complements": {
+            "type": "string",
+            "description": "Information additional of the branch."
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Affiliate user id (owner).",
+            "example": "ab#12342"
           }
         }
       }

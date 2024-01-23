@@ -39,6 +39,7 @@ async function bootstrap() {
       .setVersion('0.0.1')
       .addTag('auth')
       .addTag('user')
+      .addTag('branchs')
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
