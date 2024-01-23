@@ -1,8 +1,12 @@
+import { Entity, Column, Index, OneToMany } from 'typeorm';
+
 import { Base } from '../../../utils/base.entity';
-import { Entity, Column } from 'typeorm';
+
+import { Branch } from '../../../modules/branchs/entities/branch.entity';
 
 @Entity('user')
 export class User extends Base {
+  @Index()
   @Column('varchar')
   user_name: string;
 
@@ -14,4 +18,7 @@ export class User extends Base {
 
   @Column('varchar', { nullable: true })
   phone_number: string | null;
+
+  @OneToMany(() => Branch, (branch) => branch.user)
+  branches: Branch[];
 }

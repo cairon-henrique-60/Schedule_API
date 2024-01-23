@@ -74,10 +74,10 @@ $ nest g resource user
 
 ```bash
 # create
-$ typeorm migration:create ./lib/database/migrations/--migration-name--
+$ typeorm migration:create src/lib/database/migrations/--migration-name--
 
 # running the new migration
-$ typeorm migration:run -- -d ./lib/database/database.providers.ts
+$ typeorm migration:run -- -d src/lib/database/database.providers.ts
 
 # Rollbacks
 $ typeorm migration:revert --fake
