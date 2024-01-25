@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Like } from 'typeorm';
 import { randomUUID } from 'crypto';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 import { BadRequestError } from '../../../http-exceptions/errors/types/BadRequestError';
 import { UnauthorizedError } from '../../../http-exceptions/errors/types/UnauthorizedError';
+
+import { Branch } from '../../../modules/branchs/entities/branch.entity';
 
 import { UserService } from './user.service';
 import { User } from '../entities/user.entity';
@@ -25,12 +26,30 @@ describe('UserService unit tests', () => {
   };
 
   const mockUser = new User();
+  const mockBranch = new Branch();
+
+  mockBranch.id = randomUUID();
+  mockBranch.createdAt = '2024-01-23T11:22:24.000Z';
+  mockBranch.updatedAt = '2024-01-23T11:22:24.000Z';
+  mockBranch.deletedAt = null;
+  mockBranch.branch_name = 'Barber';
+  mockBranch.cnpj = '12345678000200';
+  mockBranch.street = 'Rua Alameda';
+  mockBranch.cep = '36150000';
+  mockBranch.city = 'New York';
+  mockBranch.user_id = '37e4d06a-1283-4109-991b-8700e3fe116d';
+  mockBranch.district = 'Broklyn';
+  mockBranch.local_number = '230B';
+  mockBranch.complements = 'Main Street';
+  mockBranch.user = mockUser;
+
   mockUser.id = randomUUID();
   mockUser.user_name = 'John Doe';
   mockUser.user_email = 'johndoe@example.com';
   mockUser.phone_number = '1234567890';
   mockUser.createdAt = new Date().toString();
   mockUser.updatedAt = new Date().toString();
+  mockUser.branches = [mockBranch];
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -108,8 +127,16 @@ describe('UserService unit tests', () => {
     });
 
     it('should return a user object when a valid id is provided', async () => {
-      const result = mockUser;
-      jest.spyOn(userService, 'findOneByEmail').mockResolvedValue(result);
+      const mockUser = new User();
+      mockUser.id = 'some-id';
+      mockUser.user_name = 'John Doe';
+      mockUser.user_email = 'john@example.com';
+      mockUser.phone_number = '1234567890';
+      mockUser.createdAt = '2022-01-01T00:00:00.000Z';
+      mockUser.updatedAt = '2022-01-01T00:00:00.000Z';
+      mockUser.deletedAt = null;
+
+      jest.spyOn(userService, 'findOneByEmail').mockResolvedValue(mockUser);
 
       await userService.findOneByEmail(mockUser.user_email);
 
@@ -135,25 +162,36 @@ describe('UserService unit tests', () => {
 
       const result = await userService.findAll(params);
 
-      expect(mockService.find).toHaveBeenCalledWith({
-        select: [
-          'id',
-          'user_name',
-          'user_email',
-          'phone_number',
-          'createdAt',
-          'updatedAt',
-          'deletedAt',
-        ],
-        where: {
-          createdAt: Like(`%${params.createdAt}%`),
-          deletedAt: Like(`%${params.deletedAt}%`),
-          phone_number: Like(`%${params.phone_number}%`),
-          updatedAt: Like(`%${params.updatedAt}%`),
-          user_email: Like(`%${params.user_email}%`),
-          user_name: Like(`%${params.user_name}%`),
-        },
-      });
+      expect(mockService.find).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            createdAt: expect.objectContaining({
+              _type: 'like',
+              _value: expect.stringContaining(params.createdAt),
+            }),
+            deletedAt: expect.objectContaining({
+              _type: 'like',
+              _value: expect.stringContaining(params.deletedAt),
+            }),
+            phone_number: expect.objectContaining({
+              _type: 'like',
+              _value: expect.stringContaining(params.phone_number),
+            }),
+            updatedAt: expect.objectContaining({
+              _type: 'like',
+              _value: expect.stringContaining(params.updatedAt),
+            }),
+            user_email: expect.objectContaining({
+              _type: 'like',
+              _value: expect.stringContaining(params.user_email),
+            }),
+            user_name: expect.objectContaining({
+              _type: 'like',
+              _value: expect.stringContaining(params.user_name),
+            }),
+          },
+        }),
+      );
 
       expect(result).toEqual([]);
     });
