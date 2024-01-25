@@ -17,12 +17,19 @@ import { BranchsService } from '../service/branchs.service';
 import { CreateBranchDto } from '../dto/create-branch.dto';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { QuerysBranchDto } from '../dto/querys-branch.dto';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { Branch } from '../entities/branch.entity';
 
 @ApiBearerAuth()
 @ApiTags('branchs')
 @Controller('branchs')
 export class BranchsController {
   constructor(private readonly branchsService: BranchsService) {}
+
+  @Get('paginate')
+  async paginate(@Query() query: QuerysBranchDto): Promise<Pagination<Branch>> {
+    return await this.branchsService.paginateBranch(query);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

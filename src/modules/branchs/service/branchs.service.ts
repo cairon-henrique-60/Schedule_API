@@ -1,6 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
 
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
+
 import { UserService } from '../../../modules/users/service/user.service';
 
 import { CreateBranchDto } from '../dto/create-branch.dto';
@@ -13,7 +19,7 @@ import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundErr
 
 @Injectable()
 export class BranchsService {
-  public get branchsReposotoy(): Repository<Branch> {
+  public get branchsRepository(): Repository<Branch> {
     return this._branchsReposotoy;
   }
   constructor(
@@ -21,6 +27,31 @@ export class BranchsService {
     private readonly _branchsReposotoy: Repository<Branch>,
     private readonly userServive: UserService,
   ) {}
+
+  async paginateBranch(params: QuerysBranchDto): Promise<Pagination<Branch>> {
+    const whereClause: QuerysBranchDto = {};
+
+    const { limit, page, ...rest } = params;
+
+    const options: IPaginationOptions = {
+      limit,
+      page,
+    };
+
+    Object.keys(rest).forEach((key) => {
+      if (rest[key]) {
+        whereClause[key] = Like(`%${rest[key]}%`);
+      }
+    });
+
+    const queryBuilder = this.branchsRepository.createQueryBuilder('b');
+    queryBuilder
+      .select(['b', 'u.id', 'u.user_name', 'u.user_email', 'u.phone_number'])
+      .leftJoin('b.user', 'u')
+      .where(whereClause);
+
+    return paginate<Branch>(queryBuilder, options);
+  }
 
   async findAll(params: QuerysBranchDto): Promise<Branch[]> {
     const whereClause: QuerysBranchDto = {};
@@ -31,7 +62,7 @@ export class BranchsService {
       }
     });
 
-    const branchs = await this.branchsReposotoy.find({
+    const branchs = await this.branchsRepository.find({
       where: whereClause,
       relations: ['user'],
     });
@@ -50,7 +81,7 @@ export class BranchsService {
   }
 
   async findOne(id: string): Promise<Branch> {
-    const branch = await this.branchsReposotoy.findOne({
+    const branch = await this.branchsRepository.findOne({
       where: { id },
       relations: ['user'],
     });
@@ -74,9 +105,9 @@ export class BranchsService {
   async create(createBranchDto: CreateBranchDto): Promise<Branch> {
     await this.userServive.findOne(createBranchDto.user_id);
 
-    const createdBranch = this.branchsReposotoy.create(createBranchDto);
+    const createdBranch = this.branchsRepository.create(createBranchDto);
 
-    const newBranch = await this.branchsReposotoy.save(createdBranch);
+    const newBranch = await this.branchsRepository.save(createdBranch);
 
     return this.findOne(newBranch.id);
   }
@@ -88,7 +119,7 @@ export class BranchsService {
       await this.userServive.findOne(updateBranchDto.user_id);
     }
 
-    await this.branchsReposotoy.update(id, updateBranchDto);
+    await this.branchsRepository.update(id, updateBranchDto);
 
     return this.findOne(id);
   }
@@ -96,6 +127,6 @@ export class BranchsService {
   async remove(id: string) {
     await this.findOne(id);
 
-    return this.branchsReposotoy.delete(id);
+    return this.branchsRepository.delete(id);
   }
 }

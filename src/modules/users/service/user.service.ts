@@ -27,6 +27,39 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
+  async paginateUser(params: QueryUserDTO): Promise<Pagination<User>> {
+    const whereClause: QueryUserDTO = {};
+
+    const { limit, page, ...rest } = params;
+
+    const options: IPaginationOptions = {
+      limit,
+      page,
+    };
+
+    Object.keys(rest).forEach((key) => {
+      if (rest[key]) {
+        whereClause[key] = Like(`%${rest[key]}%`);
+      }
+    });
+
+    const queryBuilder = this.userRepository.createQueryBuilder('u');
+    queryBuilder
+      .select([
+        'u.id',
+        'u.user_name',
+        'u.user_email',
+        'u.phone_number',
+        'u.createdAt',
+        'u.updatedAt',
+        'u.deletedAt',
+      ])
+      .leftJoinAndSelect('u.branchs', 'branch')
+      .where(whereClause);
+
+    return paginate<User>(queryBuilder, options);
+  }
+
   async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
@@ -83,39 +116,6 @@ export class UserService {
       where: whereClause,
       relations: ['branchs'],
     });
-  }
-
-  async paginateUser(params: QueryUserDTO): Promise<Pagination<User>> {
-    const whereClause: QueryUserDTO = {};
-
-    const { limit, page, ...rest } = params;
-
-    const options: IPaginationOptions = {
-      limit,
-      page,
-    };
-
-    Object.keys(rest).forEach((key) => {
-      if (rest[key]) {
-        whereClause[key] = Like(`%${rest[key]}%`);
-      }
-    });
-
-    const queryBuilder = this.userRepository.createQueryBuilder('u');
-    queryBuilder
-      .select([
-        'u.id',
-        'u.user_name',
-        'u.user_email',
-        'u.phone_number',
-        'u.createdAt',
-        'u.updatedAt',
-        'u.deletedAt',
-      ])
-      .leftJoinAndSelect('u.branchs', 'branch')
-      .where(whereClause);
-
-    return paginate<User>(queryBuilder, options);
   }
 
   async createUser({ password, ...rest }: CreateUserDTO): Promise<User> {

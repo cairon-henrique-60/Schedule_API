@@ -436,6 +436,151 @@
         ]
       }
     },
+    "/schedule/branchs/paginate": {
+      "get": {
+        "operationId": "BranchsController_paginate",
+        "parameters": [
+          {
+            "name": "branch_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cnpj",
+            "required": false,
+            "in": "query",
+            "description": "CNPJ of the branch.",
+            "example": "12345678000200",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "street",
+            "required": false,
+            "in": "query",
+            "description": "Street of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cep",
+            "required": false,
+            "in": "query",
+            "description": "CEP of the branch.",
+            "example": "36150000",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "city",
+            "required": false,
+            "in": "query",
+            "description": "City of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "district",
+            "required": false,
+            "in": "query",
+            "description": "District of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "local_number",
+            "required": false,
+            "in": "query",
+            "description": "Number residence of the branch.",
+            "example": "230B",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "complements",
+            "required": false,
+            "in": "query",
+            "description": "Information additional of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate branchs.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate branchs.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branchs"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/schedule/branchs/{id}": {
       "get": {
         "operationId": "BranchsController_findOne",
@@ -647,6 +792,26 @@
             "example": "2024-01-06",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate branchs.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate branchs.",
+            "example": 1,
+            "schema": {
+              "type": "number"
             }
           }
         ],
