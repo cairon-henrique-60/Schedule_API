@@ -9,6 +9,8 @@ export const querysUserSchema = z.object({
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
   deletedAt: z.string().optional(),
+  limit: z.number().optional(),
+  page: z.number().optional(),
 });
 
 export class QueryUserDTO extends createZodDto(querysUserSchema) {
@@ -48,4 +50,16 @@ export class QueryUserDTO extends createZodDto(querysUserSchema) {
    */
   @ApiPropertyOptional()
   deletedAt?: string;
+  /**
+   *Limite data of the paginate user.
+   *@example 100
+   */
+   @ApiPropertyOptional()
+   limit?: number;
+   /**
+   *Current page of the paginate user.
+   *@example 1
+   */
+  @ApiPropertyOptional()
+  page?: number;
 }

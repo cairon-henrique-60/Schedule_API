@@ -53,6 +53,106 @@
         ]
       }
     },
+    "/schedule/user/paginate": {
+      "get": {
+        "operationId": "UserController_paginate",
+        "parameters": [
+          {
+            "name": "user_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the user.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_email",
+            "required": false,
+            "in": "query",
+            "description": "Email of the user.",
+            "example": "levis@gmail.com",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "phone_number",
+            "required": false,
+            "in": "query",
+            "description": "Phone number of the user.",
+            "example": "997203320",
+            "schema": {
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate user.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate user.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/schedule/user/{id}": {
       "get": {
         "operationId": "UserController_getById",
@@ -254,6 +354,26 @@
             "example": "2024-01-06",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate user.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate user.",
+            "example": 1,
+            "schema": {
+              "type": "number"
             }
           }
         ],

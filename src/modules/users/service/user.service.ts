@@ -1,6 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
 
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
+
 import { compare } from 'bcrypt';
 
 import { createPasswordHashed } from '../../../utils/password';
@@ -77,6 +83,39 @@ export class UserService {
       where: whereClause,
       relations: ['branchs'],
     });
+  }
+
+  async paginateUser(params: QueryUserDTO): Promise<Pagination<User>> {
+    const whereClause: QueryUserDTO = {};
+
+    const { limit, page, ...rest } = params;
+
+    const options: IPaginationOptions = {
+      limit,
+      page,
+    };
+
+    Object.keys(rest).forEach((key) => {
+      if (rest[key]) {
+        whereClause[key] = Like(`%${rest[key]}%`);
+      }
+    });
+
+    const queryBuilder = this.userRepository.createQueryBuilder('u');
+    queryBuilder
+      .select([
+        'u.id',
+        'u.user_name',
+        'u.user_email',
+        'u.phone_number',
+        'u.createdAt',
+        'u.updatedAt',
+        'u.deletedAt',
+      ])
+      .leftJoinAndSelect('u.branchs', 'branch')
+      .where(whereClause);
+
+    return paginate<User>(queryBuilder, options);
   }
 
   async createUser({ password, ...rest }: CreateUserDTO): Promise<User> {
