@@ -13,6 +13,7 @@ describe('UserController unit tests', () => {
   let user_password: string;
 
   const mockService = {
+    paginateUser: jest.fn(),
     findOne: jest.fn(),
     findOneByEmail: jest.fn(),
     findAll: jest.fn(),
@@ -86,6 +87,26 @@ describe('UserController unit tests', () => {
 
       expect(mockService.findAll).toHaveBeenCalledTimes(1);
       expect(mockService.findAll).toHaveBeenCalledWith(params);
+    });
+  });
+
+  describe('paginateUser', () => {
+    it('should return an empty array when no users match the query parameters by paginate', async () => {
+      const params: QueryUserDTO = {
+        user_name: 'John',
+        user_email: 'john@example.com',
+        phone_number: '1234567890',
+        createdAt: '2022-01-01',
+        updatedAt: '2022-01-02',
+        deletedAt: '2022-01-03',
+        limit: 100,
+        page: 1,
+      };
+
+      await userController.paginate(params);
+
+      expect(mockService.paginateUser).toHaveBeenCalledTimes(1);
+      expect(mockService.paginateUser).toHaveBeenCalledWith(params);
     });
   });
 
