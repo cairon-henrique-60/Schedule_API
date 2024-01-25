@@ -14,6 +14,8 @@ const branchsSchema = z.object({
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
   deletedAt: z.string().optional(),
+  limit: z.number().optional(),
+  page: z.number().optional(),
 });
 
 export class QuerysBranchDto extends createZodDto(branchsSchema) {
@@ -83,4 +85,16 @@ export class QuerysBranchDto extends createZodDto(branchsSchema) {
    */
   @ApiPropertyOptional()
   deletedAt?: string;
+  /**
+   *Limite data of the paginate branchs.
+   *@example 100
+   */
+   @ApiPropertyOptional()
+   limit?: number;
+   /**
+   *Current page of the paginate branchs.
+   *@example 1
+   */
+  @ApiPropertyOptional()
+  page?: number;
 }
