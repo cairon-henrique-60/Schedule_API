@@ -30,10 +30,23 @@ export class BranchsService {
         whereClause[key] = Like(`%${params[key]}%`);
       }
     });
-    return this.branchsReposotoy.find({
+
+    const branchs = await this.branchsReposotoy.find({
       where: whereClause,
       relations: ['user'],
     });
+
+    const response = branchs.map(({ user, ...restBranch }) => ({
+      ...restBranch,
+      user: {
+        id: user.id,
+        user_name: user.user_name,
+        user_email: user.user_email,
+        phone_number: user.phone_number,
+      },
+    }));
+
+    return response as Branch[];
   }
 
   async findOne(id: string): Promise<Branch> {
@@ -44,7 +57,18 @@ export class BranchsService {
     if (!branch) {
       throw new NotFoundError('Branch not found!');
     }
-    return branch;
+
+    const { user, ...restBranch } = branch;
+
+    return {
+      ...restBranch,
+      user: {
+        id: user.id,
+        user_name: user.user_name,
+        user_email: user.user_email,
+        phone_number: user.phone_number,
+      },
+    } as Branch;
   }
 
   async create(createBranchDto: CreateBranchDto): Promise<Branch> {
@@ -54,7 +78,7 @@ export class BranchsService {
 
     const newBranch = await this.branchsReposotoy.save(createdBranch);
 
-    return newBranch;
+    return this.findOne(newBranch.id);
   }
 
   async update(id: string, updateBranchDto: UpdateBranchDto): Promise<Branch> {

@@ -498,6 +498,36 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the user.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -625,7 +655,7 @@
             "type": "string",
             "nullable": true
           },
-          "branches": {
+          "branchs": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Branch"
@@ -651,7 +681,7 @@
           "password",
           "user_email",
           "phone_number",
-          "branches",
+          "branchs",
           "id",
           "createdAt",
           "updatedAt",

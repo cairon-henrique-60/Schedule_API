@@ -20,5 +20,5 @@ export class User extends Base {
   phone_number: string | null;
 
   @OneToMany(() => Branch, (branch) => branch.user)
-  branches: Branch[];
+  branchs: Branch[];
 }

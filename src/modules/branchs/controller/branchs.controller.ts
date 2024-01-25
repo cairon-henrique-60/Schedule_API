@@ -10,11 +10,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
+import { DataBaseInterceptor } from '../../../http-exceptions/errors/interceptors/dataBase.interceptor';
+
 import { BranchsService } from '../service/branchs.service';
 import { CreateBranchDto } from '../dto/create-branch.dto';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { QuerysBranchDto } from '../dto/querys-branch.dto';
-import { DataBaseInterceptor } from 'src/http-exceptions/errors/interceptors/dataBase.interceptor';
 
 @ApiBearerAuth()
 @ApiTags('branchs')

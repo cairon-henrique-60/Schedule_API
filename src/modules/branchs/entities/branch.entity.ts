@@ -1,6 +1,7 @@
-import { User } from 'src/modules/users/entities/user.entity';
-import { Base } from '../../../utils/base.entity';
 import { Entity, Column, Index, ManyToOne, JoinColumn } from 'typeorm';
+
+import { Base } from '../../../utils/base.entity';
+import { User } from '../../../modules/users/entities/user.entity';
 
 @Entity('branchs')
 export class Branch extends Base {

@@ -32,6 +32,7 @@ export class UserService {
         'createdAt',
         'updatedAt',
       ],
+      relations: ['branchs'],
     });
 
     if (!user) {
@@ -45,7 +46,6 @@ export class UserService {
   async findOneByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { user_email: email },
-      relations: ['branches'],
     });
 
     if (!user) {
@@ -75,7 +75,7 @@ export class UserService {
         'deletedAt',
       ],
       where: whereClause,
-      relations: ['branches'],
+      relations: ['branchs'],
     });
   }
 
