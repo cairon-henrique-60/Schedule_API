@@ -32,6 +32,7 @@ export class UserService {
         'createdAt',
         'updatedAt',
       ],
+      relations: ['branchs'],
     });
 
     if (!user) {
@@ -74,7 +75,7 @@ export class UserService {
         'deletedAt',
       ],
       where: whereClause,
-      relations: ['branches'],
+      relations: ['branchs'],
     });
   }
 

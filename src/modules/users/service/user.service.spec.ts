@@ -10,6 +10,7 @@ import { Branch } from '../../../modules/branchs/entities/branch.entity';
 import { UserService } from './user.service';
 import { User } from '../entities/user.entity';
 import { QueryUserDTO } from '../dto/querys-user.dto';
+import { Like } from 'typeorm';
 
 describe('UserService unit tests', () => {
   let userService: UserService;
@@ -49,7 +50,7 @@ describe('UserService unit tests', () => {
   mockUser.phone_number = '1234567890';
   mockUser.createdAt = new Date().toString();
   mockUser.updatedAt = new Date().toString();
-  mockUser.branches = [mockBranch];
+  mockUser.branchs = [mockBranch];
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -94,6 +95,7 @@ describe('UserService unit tests', () => {
           'createdAt',
           'updatedAt',
         ],
+        relations: ['branchs'],
       });
     });
 
@@ -162,36 +164,26 @@ describe('UserService unit tests', () => {
 
       const result = await userService.findAll(params);
 
-      expect(mockService.find).toHaveBeenCalledWith(
-        expect.objectContaining({
-          where: {
-            createdAt: expect.objectContaining({
-              _type: 'like',
-              _value: expect.stringContaining(params.createdAt),
-            }),
-            deletedAt: expect.objectContaining({
-              _type: 'like',
-              _value: expect.stringContaining(params.deletedAt),
-            }),
-            phone_number: expect.objectContaining({
-              _type: 'like',
-              _value: expect.stringContaining(params.phone_number),
-            }),
-            updatedAt: expect.objectContaining({
-              _type: 'like',
-              _value: expect.stringContaining(params.updatedAt),
-            }),
-            user_email: expect.objectContaining({
-              _type: 'like',
-              _value: expect.stringContaining(params.user_email),
-            }),
-            user_name: expect.objectContaining({
-              _type: 'like',
-              _value: expect.stringContaining(params.user_name),
-            }),
-          },
-        }),
-      );
+      expect(mockService.find).toHaveBeenCalledWith({
+        select: [
+          'id',
+          'user_name',
+          'user_email',
+          'phone_number',
+          'createdAt',
+          'updatedAt',
+          'deletedAt',
+        ],
+        where: {
+          createdAt: Like(`%${params.createdAt}%`),
+          deletedAt: Like(`%${params.deletedAt}%`),
+          phone_number: Like(`%${params.phone_number}%`),
+          updatedAt: Like(`%${params.updatedAt}%`),
+          user_email: Like(`%${params.user_email}%`),
+          user_name: Like(`%${params.user_name}%`),
+        },
+        relations: ['branchs'],
+      });
 
       expect(result).toEqual([]);
     });
@@ -403,6 +395,7 @@ describe('UserService unit tests', () => {
           'updatedAt',
         ],
         where: { id: 'invalid_id' },
+        relations: ['branchs'],
       });
 
       expect(mockService.delete).not.toHaveBeenCalled();
@@ -428,6 +421,7 @@ describe('UserService unit tests', () => {
           'updatedAt',
         ],
         where: { id: mockUser.id },
+        relations: ['branchs'],
       });
 
       expect(mockService.delete).toHaveBeenCalledTimes(1);
