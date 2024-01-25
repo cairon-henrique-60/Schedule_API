@@ -25,6 +25,11 @@ import { QueryUserDTO } from '../dto/querys-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get('paginate')
+  async paginate(@Query() query: QueryUserDTO) {
+    return await this.userService.paginateUser(query);
+  }
+
   @Get(':id')
   getById(@Param('id') id: string) {
     return this.userService.findOne(id);
@@ -39,6 +44,7 @@ export class UserController {
   list(@Query() query: QueryUserDTO) {
     return this.userService.findAll(query);
   }
+
   @Public()
   @Post()
   @UseInterceptors(DataBaseInterceptor)
