@@ -15,6 +15,7 @@ describe('BranchsController', () => {
   let branchController: BranchsController;
 
   const mockService = {
+    paginateBranch: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
     create: jest.fn(),
@@ -61,6 +62,31 @@ describe('BranchsController', () => {
 
   it('should be defined', () => {
     expect(branchController).toBeDefined();
+  });
+
+  describe('paginate', () => {
+    it('should paginate return an empty array when no branchs match the query parameters', async () => {
+      const params: QuerysBranchDto = {
+        branch_name: mockBranch.branch_name,
+        cnpj: mockBranch.cnpj,
+        street: mockBranch.street,
+        cep: mockBranch.cep,
+        city: mockBranch.city,
+        district: mockBranch.district,
+        local_number: mockBranch.local_number,
+        complements: mockBranch.complements,
+        createdAt: '2022-01-01',
+        updatedAt: '2022-01-02',
+        deletedAt: '2022-01-03',
+        page: 1,
+        limit: 100,
+      };
+
+      await branchController.paginate(params);
+
+      expect(mockService.paginateBranch).toHaveBeenCalledTimes(1);
+      expect(mockService.paginateBranch).toHaveBeenCalledWith(params);
+    });
   });
 
   describe('findAll', () => {
