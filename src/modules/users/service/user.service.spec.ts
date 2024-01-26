@@ -44,6 +44,7 @@ describe('UserService unit tests', () => {
   mockBranch.user_id = '37e4d06a-1283-4109-991b-8700e3fe116d';
   mockBranch.district = 'Broklyn';
   mockBranch.local_number = '230B';
+  mockBranch.branch_phone = '32227460';
   mockBranch.complements = 'Main Street';
   mockBranch.user = mockUser;
 

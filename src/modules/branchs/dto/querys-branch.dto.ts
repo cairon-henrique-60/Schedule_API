@@ -10,6 +10,7 @@ const branchsSchema = z.object({
   city: z.string().optional(),
   district: z.string().optional(),
   local_number: z.string().max(10).optional(),
+  branch_phone: z.string().optional().nullable(),
   complements: z.string().max(100).optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
@@ -62,6 +63,12 @@ export class QuerysBranchDto extends createZodDto(branchsSchema) {
   @ApiPropertyOptional()
   local_number?: string;
   /**
+   * Number phone of the branch.
+   * @example 32227460
+   */
+  @ApiPropertyOptional()
+  branch_phone?: string;
+  /**
    * Information additional of the branch.
    * @example Next to the bookstore
    */
@@ -89,9 +96,9 @@ export class QuerysBranchDto extends createZodDto(branchsSchema) {
    *Limite data of the paginate branchs.
    *@example 100
    */
-   @ApiPropertyOptional()
-   limit?: number;
-   /**
+  @ApiPropertyOptional()
+  limit?: number;
+  /**
    *Current page of the paginate branchs.
    *@example 1
    */

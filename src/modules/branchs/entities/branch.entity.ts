@@ -31,6 +31,9 @@ export class Branch extends Base {
   @Column('varchar', { length: 10 })
   local_number: string;
 
+  @Column('varchar', { nullable: true })
+  branch_phone: string;
+
   @Column('varchar')
   complements: string;
 

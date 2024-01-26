@@ -49,6 +49,12 @@ export class BranchsEntity1705999038931 implements MigrationInterface {
             length: '10',
           },
           {
+            name: 'branch_phone',
+            type: 'varchar',
+            isUnique: true,
+            isNullable: true,
+          },
+          {
             name: 'complements',
             type: 'varchar',
           },

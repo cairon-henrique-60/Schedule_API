@@ -50,6 +50,7 @@ describe('BranchsService unit tests', () => {
   mockBranch.user_id = mockUser.id;
   mockBranch.district = 'Broklyn';
   mockBranch.local_number = '230B';
+  mockBranch.branch_phone = '32227460';
   mockBranch.complements = 'Main Street';
   mockBranch.user = mockUser;
 
@@ -153,6 +154,7 @@ describe('BranchsService unit tests', () => {
         city: mockBranch.city,
         district: mockBranch.district,
         local_number: mockBranch.local_number,
+        branch_phone: mockBranch.branch_phone,
         complements: mockBranch.complements,
         createdAt: '2022-01-01',
         updatedAt: '2022-01-02',
@@ -170,6 +172,7 @@ describe('BranchsService unit tests', () => {
           updatedAt: Like(`%${params.updatedAt}%`),
           complements: Like(`%${params.complements}%`),
           local_number: Like(`%${params.local_number}%`),
+          branch_phone: Like(`%${params.branch_phone}%`),
           district: Like(`%${params.district}%`),
           city: Like(`%${params.city}%`),
           cep: Like(`%${params.cep}%`),
@@ -194,6 +197,7 @@ describe('BranchsService unit tests', () => {
       city: 'New York',
       district: 'Broklyn',
       local_number: '230B',
+      branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
       user_id: '37e4d06a-1283-4109-991b-8700e3fe116d',
     };
@@ -207,6 +211,7 @@ describe('BranchsService unit tests', () => {
         city: 'New York',
         district: 'Broklyn',
         local_number: '230B',
+        branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
         user_id: 'invalidUserId',
       };
@@ -246,6 +251,7 @@ describe('BranchsService unit tests', () => {
       city: 'New York',
       district: 'Broklyn',
       local_number: '230B',
+      branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
       user_id: '37e4d06a-1283-4109-991b-8700e3fe116d',
     };
@@ -272,6 +278,7 @@ describe('BranchsService unit tests', () => {
         city: 'New York',
         district: 'Broklyn',
         local_number: '230B',
+        branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
         user_id: 'invalidUserId',
       };

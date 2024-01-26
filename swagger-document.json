@@ -507,6 +507,16 @@
             }
           },
           {
+            "name": "branch_phone",
+            "required": false,
+            "in": "query",
+            "description": "Number phone of the branch.",
+            "example": "32227460",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "complements",
             "required": false,
             "in": "query",
@@ -756,6 +766,16 @@
             }
           },
           {
+            "name": "branch_phone",
+            "required": false,
+            "in": "query",
+            "description": "Number phone of the branch.",
+            "example": "32227460",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "complements",
             "required": false,
             "in": "query",
@@ -1000,6 +1020,9 @@
           "local_number": {
             "type": "string"
           },
+          "branch_phone": {
+            "type": "string"
+          },
           "complements": {
             "type": "string"
           },
@@ -1030,6 +1053,7 @@
           "user_id",
           "district",
           "local_number",
+          "branch_phone",
           "complements",
           "user",
           "id",
@@ -1132,6 +1156,11 @@
             "description": "Number residence of the branch.",
             "example": "230B"
           },
+          "branch_phone": {
+            "type": "string",
+            "description": "Number phone of the branch.",
+            "example": "32227460"
+          },
           "complements": {
             "type": "string",
             "description": "Information additional of the branch."
@@ -1186,6 +1215,11 @@
             "type": "string",
             "description": "Number residence of the branch.",
             "example": "230B"
+          },
+          "branch_phone": {
+            "type": "string",
+            "description": "Number phone of the branch.",
+            "example": "32227460"
           },
           "complements": {
             "type": "string",

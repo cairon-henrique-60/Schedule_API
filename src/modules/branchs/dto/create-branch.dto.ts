@@ -9,6 +9,7 @@ const branchsSchema = z.object({
   city: z.string(),
   district: z.string(),
   local_number: z.string().max(10),
+  branch_phone: z.string().optional().nullable(),
   complements: z.string().max(100),
   user_id: z.string(),
 });
@@ -49,6 +50,11 @@ export class CreateBranchDto extends createZodDto(branchsSchema) {
    * @example 230B
    */
   local_number: string;
+   /**
+   * Number phone of the branch.
+   * @example 32227460
+   */
+   branch_phone?: string;
   /**
    * Information additional of the branch.
    * @example Next to the bookstore
