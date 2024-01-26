@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { Like } from 'typeorm';
 
 import { randomUUID } from 'crypto';
@@ -13,11 +14,14 @@ import { CreateBranchDto } from '../dto/create-branch.dto';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { QuerysBranchDto } from '../dto/querys-branch.dto';
 
+jest.mock('nestjs-typeorm-paginate');
+
 describe('BranchsService unit tests', () => {
   let branchService: BranchsService;
   let userService: UserService;
 
   const mockService = {
+    createQueryBuilder: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
     save: jest.fn(),
@@ -71,6 +75,44 @@ describe('BranchsService unit tests', () => {
   it('should be defined', () => {
     expect(branchService).toBeDefined();
     expect(userService).toBeDefined();
+  });
+
+  describe('paginate', () => {
+    it('should paginate branches', async () => {
+      const mockParams: QuerysBranchDto = {
+        branch_name: mockBranch.branch_name,
+        cnpj: mockBranch.cnpj,
+        city: mockBranch.city,
+        page: 1,
+        limit: 10,
+      };
+
+      jest.spyOn(mockService, 'createQueryBuilder').mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        leftJoin: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+      });
+
+      await branchService.paginateBranch(mockParams);
+
+      expect(mockService.createQueryBuilder).toHaveBeenCalledWith('b');
+      expect(mockService.createQueryBuilder().select).toHaveBeenCalledWith([
+        'b',
+        'u.id',
+        'u.user_name',
+        'u.user_email',
+        'u.phone_number',
+      ]);
+      expect(mockService.createQueryBuilder().leftJoin).toHaveBeenCalledWith(
+        'b.user',
+        'u',
+      );
+      expect(mockService.createQueryBuilder().where).toHaveBeenCalledWith({
+        branch_name: Like(`%${mockParams.branch_name}%`),
+        cnpj: Like(`%${mockParams.cnpj}%`),
+        city: Like(`%${mockParams.city}%`),
+      });
+    });
   });
 
   describe('findOne', () => {
