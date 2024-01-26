@@ -13,7 +13,6 @@ import { BranchsService } from './branchs.service';
 import { CreateBranchDto } from '../dto/create-branch.dto';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { QuerysBranchDto } from '../dto/querys-branch.dto';
-import { Pagination } from 'nestjs-typeorm-paginate';
 
 jest.mock('nestjs-typeorm-paginate');
 

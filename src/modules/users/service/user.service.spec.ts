@@ -12,12 +12,15 @@ import { User } from '../entities/user.entity';
 import { QueryUserDTO } from '../dto/querys-user.dto';
 import { Like } from 'typeorm';
 
+jest.mock('nestjs-typeorm-paginate');
+
 describe('UserService unit tests', () => {
   let userService: UserService;
 
   let user_password: string;
 
   const mockService = {
+    createQueryBuilder: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
     save: jest.fn(),
@@ -72,6 +75,45 @@ describe('UserService unit tests', () => {
 
   it('should be defined', () => {
     expect(userService).toBeDefined();
+  });
+
+  describe('paginateUser', () => {
+    it('should paginate users', async () => {
+      const mockParams: QueryUserDTO = {
+        user_name: mockUser.user_name,
+        user_email: mockUser.user_email,
+        phone_number: mockUser.phone_number,
+        page: 1,
+        limit: 10,
+      };
+
+      jest.spyOn(mockService, 'createQueryBuilder').mockReturnValue({
+        select: jest.fn().mockReturnThis(),
+        leftJoinAndSelect: jest.fn().mockReturnThis(),
+        where: jest.fn().mockReturnThis(),
+      });
+
+      await userService.paginateUser(mockParams);
+
+      expect(mockService.createQueryBuilder).toHaveBeenCalledWith('u');
+      expect(mockService.createQueryBuilder().select).toHaveBeenCalledWith([
+        'u.id',
+        'u.user_name',
+        'u.user_email',
+        'u.phone_number',
+        'u.createdAt',
+        'u.updatedAt',
+        'u.deletedAt',
+      ]);
+      expect(
+        mockService.createQueryBuilder().leftJoinAndSelect,
+      ).toHaveBeenCalledWith('u.branchs', 'branch');
+      expect(mockService.createQueryBuilder().where).toHaveBeenCalledWith({
+        user_name: Like(`%${mockParams.user_name}%`),
+        user_email: Like(`%${mockParams.user_email}%`),
+        phone_number: Like(`%${mockParams.phone_number}%`),
+      });
+    });
   });
 
   describe('findOne', () => {
