@@ -19,12 +19,9 @@ import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundErr
 
 @Injectable()
 export class BranchsService {
-  public get branchsRepository(): Repository<Branch> {
-    return this._branchsReposotoy;
-  }
   constructor(
     @Inject('BRANCH_REPOSITORY')
-    private readonly _branchsReposotoy: Repository<Branch>,
+    private readonly branchsRepository: Repository<Branch>,
     private readonly userServive: UserService,
   ) {}
 

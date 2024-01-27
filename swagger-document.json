@@ -993,6 +993,58 @@
           "deletedAt"
         ]
       },
+      "Service": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "service_name": {
+            "type": "string"
+          },
+          "service_value": {
+            "type": "number"
+          },
+          "expected_time": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "string"
+          },
+          "branchs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Branch"
+            }
+          },
+          "id": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "deletedAt": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "street",
+          "service_name",
+          "service_value",
+          "expected_time",
+          "is_active",
+          "branchs",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "deletedAt"
+        ]
+      },
       "Branch": {
         "type": "object",
         "properties": {
@@ -1029,6 +1081,12 @@
           "user": {
             "$ref": "#/components/schemas/User"
           },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -1056,6 +1114,7 @@
           "branch_phone",
           "complements",
           "user",
+          "services",
           "id",
           "createdAt",
           "updatedAt",
@@ -1169,6 +1228,14 @@
             "type": "number",
             "description": "Affiliate user id (owner).",
             "example": 1
+          },
+          "services": {
+            "description": "Services of the branch\r\r{id: 1},\r{id: 2}\r]",
+            "example": "[",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
           }
         },
         "required": [
@@ -1229,6 +1296,14 @@
             "type": "number",
             "description": "Affiliate user id (owner).",
             "example": "ab#12342"
+          },
+          "services": {
+            "description": "Services of the branch\r\r{id: 1},\r{id: 2}\r]",
+            "example": "[",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
           }
         }
       }
