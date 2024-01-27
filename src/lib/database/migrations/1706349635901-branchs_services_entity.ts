@@ -13,18 +13,18 @@ export class BranchServiceEntity1706349635901 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'varchar',
-            length: '36',
-            default: 'UUID()',
+            type: 'int',
+            isGenerated: true,
+            generationStrategy: 'increment',
             isPrimary: true,
           },
           {
             name: 'banch_id',
-            type: 'varchar',
+            type: 'int',
           },
           {
             name: 'service_id',
-            type: 'varchar',
+            type: 'int',
           },
           {
             name: 'createdAt',

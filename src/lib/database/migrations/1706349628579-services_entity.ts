@@ -8,7 +8,9 @@ export class ServicesEntity1706349628579 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'int',
+            isGenerated: true,
+            generationStrategy: 'increment',
             isPrimary: true,
           },
           {
@@ -17,7 +19,7 @@ export class ServicesEntity1706349628579 implements MigrationInterface {
           },
           {
             name: 'service_value',
-            type: 'integer',
+            type: 'int',
           },
           {
             name: 'expected_time',

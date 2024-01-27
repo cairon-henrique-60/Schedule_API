@@ -80,7 +80,7 @@ export class BranchsService {
     return response as Branch[];
   }
 
-  async findOne(id: string): Promise<Branch> {
+  async findOne(id: number): Promise<Branch> {
     const branch = await this.branchsRepository.findOne({
       where: { id },
       relations: ['user'],
@@ -103,7 +103,7 @@ export class BranchsService {
   }
 
   async create(createBranchDto: CreateBranchDto): Promise<Branch> {
-    await this.userServive.findOne(createBranchDto.user_id);
+    await this.userServive.findOne(+createBranchDto.user_id);
 
     const createdBranch = this.branchsRepository.create(createBranchDto);
 
@@ -112,11 +112,11 @@ export class BranchsService {
     return this.findOne(newBranch.id);
   }
 
-  async update(id: string, updateBranchDto: UpdateBranchDto): Promise<Branch> {
+  async update(id: number, updateBranchDto: UpdateBranchDto): Promise<Branch> {
     await this.findOne(id);
 
     if (updateBranchDto.user_id) {
-      await this.userServive.findOne(updateBranchDto.user_id);
+      await this.userServive.findOne(+updateBranchDto.user_id);
     }
 
     await this.branchsRepository.update(id, updateBranchDto);
@@ -124,7 +124,7 @@ export class BranchsService {
     return this.findOne(id);
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     await this.findOne(id);
 
     return this.branchsRepository.delete(id);

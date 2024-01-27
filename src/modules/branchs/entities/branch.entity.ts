@@ -23,8 +23,8 @@ export class Branch extends Base {
   city: string;
 
   @Index()
-  @Column('varchar')
-  user_id: string;
+  @Column('int')
+  user_id: number;
 
   @Column('varchar')
   district: string;
