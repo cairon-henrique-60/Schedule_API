@@ -12,8 +12,8 @@ import * as moment from 'moment-timezone';
 
 @Entity()
 export class Base {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: string;

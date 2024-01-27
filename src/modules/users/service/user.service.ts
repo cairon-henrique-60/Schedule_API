@@ -60,7 +60,7 @@ export class UserService {
     return paginate<User>(queryBuilder, options);
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: number): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
       select: [
@@ -140,7 +140,7 @@ export class UserService {
   }
 
   async updateUser(
-    id: string,
+    id: number,
     { current_password, password, ...rest }: UpdateUserDTO,
   ): Promise<User> {
     const user = await this.findOne(id);
@@ -175,7 +175,7 @@ export class UserService {
     return this.findOne(id);
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(id: number) {
     const user = await this.findOne(id);
 
     if (!user) throw new NotFoundError('User not found!');

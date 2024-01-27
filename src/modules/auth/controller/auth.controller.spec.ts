@@ -54,7 +54,7 @@ describe('AuthController unit tests', () => {
   describe('getProfile', () => {
     it('should return user profile when authenticated', async () => {
       const user = {
-        id: 'user_id',
+        id: 1,
         user_name: 'John Doe',
         user_email: 'john@example.com',
       };

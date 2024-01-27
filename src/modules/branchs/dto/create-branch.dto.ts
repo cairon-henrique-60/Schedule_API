@@ -11,7 +11,7 @@ const branchsSchema = z.object({
   local_number: z.string().max(10),
   branch_phone: z.string().optional().nullable(),
   complements: z.string().max(100),
-  user_id: z.string(),
+  user_id: z.number(),
 });
 
 export class CreateBranchDto extends createZodDto(branchsSchema) {
@@ -62,7 +62,7 @@ export class CreateBranchDto extends createZodDto(branchsSchema) {
   complements?: string;
   /**
    * Affiliate user id (owner).
-   * @example ab#12342
+   * @example 1
    */
-  user_id: string;
+  user_id: number;
 }

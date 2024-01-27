@@ -1,5 +1,5 @@
 interface userAuthentica {
-  id: string;
+  id: number;
   user_name: string;
   user_email: string;
 }

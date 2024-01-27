@@ -33,7 +33,7 @@ export class BranchsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.branchsService.findOne(id);
+    return this.branchsService.findOne(+id);
   }
 
   @Get()
@@ -50,11 +50,11 @@ export class BranchsController {
   @Put(':id')
   @UseInterceptors(DataBaseInterceptor)
   update(@Param('id') id: string, @Body() updateBranchDto: UpdateBranchDto) {
-    return this.branchsService.update(id, updateBranchDto);
+    return this.branchsService.update(+id, updateBranchDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.branchsService.remove(id);
+    return this.branchsService.remove(+id);
   }
 }

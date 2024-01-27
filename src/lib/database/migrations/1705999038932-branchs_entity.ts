@@ -13,7 +13,9 @@ export class BranchsEntity1705999038931 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'int',
+            isGenerated: true,
+            generationStrategy: 'increment',
             isPrimary: true,
           },
           {
@@ -60,7 +62,7 @@ export class BranchsEntity1705999038931 implements MigrationInterface {
           },
           {
             name: 'user_id',
-            type: 'varchar',
+            type: 'int',
           },
           {
             name: 'createdAt',

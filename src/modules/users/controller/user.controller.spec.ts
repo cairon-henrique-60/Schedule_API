@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { randomUUID } from 'crypto';
-
 import { User } from '../entities/user.entity';
 import { UserService } from '../service/user.service';
 import { QueryUserDTO } from '../dto/querys-user.dto';
@@ -23,7 +21,7 @@ describe('UserController unit tests', () => {
   };
 
   const mockUser = new User();
-  mockUser.id = randomUUID();
+  mockUser.id = 1;
   mockUser.user_name = 'John Doe';
   mockUser.user_email = 'johndoe@example.com';
   mockUser.phone_number = '1234567890';
@@ -54,7 +52,7 @@ describe('UserController unit tests', () => {
 
   describe('findOne', () => {
     it('should return a user object when a valid id is provided', async () => {
-      await userController.getById(mockUser.id);
+      await userController.getById(String(mockUser.id));
 
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith(mockUser.id);
@@ -136,7 +134,7 @@ describe('UserController unit tests', () => {
     };
 
     it('should update user information when all input data is valid', async () => {
-      await userController.updateUser(mockUser.id, updateUserDTO);
+      await userController.updateUser(String(mockUser.id), updateUserDTO);
 
       expect(mockService.updateUser).toHaveBeenCalledTimes(1);
       expect(mockService.updateUser).toHaveBeenCalledWith(
@@ -148,7 +146,7 @@ describe('UserController unit tests', () => {
 
   describe('deleteUser', () => {
     it('should delete a user when a valid id is provided', async () => {
-      await userController.deleteUser(mockUser.id);
+      await userController.deleteUser(String(mockUser.id));
 
       expect(mockService.deleteUser).toHaveBeenCalledTimes(1);
       expect(mockService.deleteUser).toHaveBeenCalledWith(mockUser.id);

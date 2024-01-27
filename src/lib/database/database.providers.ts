@@ -9,24 +9,24 @@ const migrationsPath = path.resolve(
   '../../lib/database/migrations/{*.ts,*.js}',
 );
 
+const dataSource = new DataSource({
+  type: 'mysql',
+  host: ENV_VARIABLES.DB_HOST,
+  port: +ENV_VARIABLES.DB_PORT,
+  username: ENV_VARIABLES.DB_USER,
+  password: ENV_VARIABLES.DATABASE_ROOT_PASSWORD,
+  database: ENV_VARIABLES.DATABASE_DATABASE_NAME,
+  entities: [entitiesPath],
+  migrations: [migrationsPath],
+  synchronize: false,
+  migrationsRun: true,
+  logging: true,
+});
+
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',
     useFactory: async () => {
-      const dataSource = new DataSource({
-        type: 'mysql',
-        host: ENV_VARIABLES.DB_HOST,
-        port: +ENV_VARIABLES.DB_PORT,
-        username: ENV_VARIABLES.DB_USER,
-        password: ENV_VARIABLES.DATABASE_ROOT_PASSWORD,
-        database: ENV_VARIABLES.DATABASE_DATABASE_NAME,
-        entities: [entitiesPath],
-        migrations: [migrationsPath],
-        synchronize: false,
-        migrationsRun: true,
-        logging: true,
-      });
-
       return dataSource.initialize();
     },
   },

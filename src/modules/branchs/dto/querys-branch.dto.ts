@@ -12,6 +12,7 @@ const branchsSchema = z.object({
   local_number: z.string().max(10).optional(),
   branch_phone: z.string().optional().nullable(),
   complements: z.string().max(100).optional(),
+  user_id: z.number().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
   deletedAt: z.string().optional(),
@@ -73,7 +74,12 @@ export class QuerysBranchDto extends createZodDto(branchsSchema) {
    * @example Next to the bookstore
    */
   @ApiPropertyOptional()
-  complements?: string;
+  /**
+   * Owner of the branch.
+   * @example 1
+   */
+  @ApiPropertyOptional()
+  user_id?: number;
   /**
    *Date create of the user.
    *@example 2024-01-06

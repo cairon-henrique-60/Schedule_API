@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { randomUUID } from 'crypto';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 import { BadRequestError } from '../../../http-exceptions/errors/types/BadRequestError';
@@ -32,7 +31,7 @@ describe('UserService unit tests', () => {
   const mockUser = new User();
   const mockBranch = new Branch();
 
-  mockBranch.id = randomUUID();
+  mockBranch.id = 1;
   mockBranch.createdAt = '2024-01-23T11:22:24.000Z';
   mockBranch.updatedAt = '2024-01-23T11:22:24.000Z';
   mockBranch.deletedAt = null;
@@ -41,14 +40,14 @@ describe('UserService unit tests', () => {
   mockBranch.street = 'Rua Alameda';
   mockBranch.cep = '36150000';
   mockBranch.city = 'New York';
-  mockBranch.user_id = '37e4d06a-1283-4109-991b-8700e3fe116d';
+  mockBranch.user_id = mockUser.id;
   mockBranch.district = 'Broklyn';
   mockBranch.local_number = '230B';
   mockBranch.branch_phone = '32227460';
   mockBranch.complements = 'Main Street';
   mockBranch.user = mockUser;
 
-  mockUser.id = randomUUID();
+  mockUser.id = 1;
   mockUser.user_name = 'John Doe';
   mockUser.user_email = 'johndoe@example.com';
   mockUser.phone_number = '1234567890';
@@ -120,7 +119,7 @@ describe('UserService unit tests', () => {
   describe('findOne', () => {
     it('should throw NotFoundError if user is not found', async () => {
       try {
-        await userService.findOne('invalid_id');
+        await userService.findOne(500);
         throw new Error('Error');
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
@@ -129,7 +128,7 @@ describe('UserService unit tests', () => {
 
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith({
-        where: { id: 'invalid_id' },
+        where: { id: 500 },
         select: [
           'id',
           'user_name',
@@ -173,7 +172,7 @@ describe('UserService unit tests', () => {
 
     it('should return a user object when a valid id is provided', async () => {
       const mockUser = new User();
-      mockUser.id = 'some-id';
+      mockUser.id = 1;
       mockUser.user_name = 'John Doe';
       mockUser.user_email = 'john@example.com';
       mockUser.phone_number = '1234567890';
@@ -302,16 +301,13 @@ describe('UserService unit tests', () => {
         .mockRejectedValue(new NotFoundError('User not found!'));
 
       await expect(
-        userService.updateUser('invalidId', updateUserDTO),
+        userService.updateUser(500, updateUserDTO),
       ).rejects.toThrowError(NotFoundError);
 
       expect(mockService.update).toHaveBeenCalledTimes(0);
       expect(mockService.findOne).toHaveBeenCalledTimes(0);
 
-      expect(userService.updateUser).toHaveBeenCalledWith(
-        'invalidId',
-        updateUserDTO,
-      );
+      expect(userService.updateUser).toHaveBeenCalledWith(500, updateUserDTO);
     });
 
     it('should throw BadRequestError if is not password is valid and current_password undefined', async () => {
@@ -420,7 +416,7 @@ describe('UserService unit tests', () => {
       jest.spyOn(mockService, 'findOne').mockResolvedValue(null);
 
       try {
-        await userService.deleteUser('invalid_id');
+        await userService.deleteUser(500);
         throw new Error('Error');
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundError);
@@ -437,7 +433,7 @@ describe('UserService unit tests', () => {
           'createdAt',
           'updatedAt',
         ],
-        where: { id: 'invalid_id' },
+        where: { id: 500 },
         relations: ['branchs'],
       });
 

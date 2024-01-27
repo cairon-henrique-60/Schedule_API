@@ -2,8 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Like } from 'typeorm';
 
-import { randomUUID } from 'crypto';
-
 import { UserService } from '../../../modules/users/service/user.service';
 import { User } from '../../../modules/users/entities/user.entity';
 
@@ -33,12 +31,12 @@ describe('BranchsService unit tests', () => {
   const mockUser = new User();
   const mockBranch = new Branch();
 
-  mockUser.id = randomUUID();
+  mockUser.id = 1;
   mockUser.user_name = 'John Doe';
   mockUser.user_email = 'johndoe@example.com';
   mockUser.phone_number = '1234567890';
 
-  mockBranch.id = randomUUID();
+  mockBranch.id = 1;
   mockBranch.createdAt = '2024-01-23T11:22:24.000Z';
   mockBranch.updatedAt = '2024-01-23T11:22:24.000Z';
   mockBranch.deletedAt = null;
@@ -119,7 +117,7 @@ describe('BranchsService unit tests', () => {
   describe('findOne', () => {
     it('should throw NotFoundError if branch is not found', async () => {
       try {
-        await branchService.findOne('invalid_id');
+        await branchService.findOne(500);
         throw new Error('Error');
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
@@ -128,7 +126,7 @@ describe('BranchsService unit tests', () => {
 
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith({
-        where: { id: 'invalid_id' },
+        where: { id: 500 },
         relations: ['user'],
       });
     });
@@ -156,6 +154,7 @@ describe('BranchsService unit tests', () => {
         local_number: mockBranch.local_number,
         branch_phone: mockBranch.branch_phone,
         complements: mockBranch.complements,
+        user_id: mockBranch.user_id,
         createdAt: '2022-01-01',
         updatedAt: '2022-01-02',
         deletedAt: '2022-01-03',
@@ -171,6 +170,7 @@ describe('BranchsService unit tests', () => {
           deletedAt: Like(`%${params.deletedAt}%`),
           updatedAt: Like(`%${params.updatedAt}%`),
           complements: Like(`%${params.complements}%`),
+          user_id: Like(`%${params.user_id}%`),
           local_number: Like(`%${params.local_number}%`),
           branch_phone: Like(`%${params.branch_phone}%`),
           district: Like(`%${params.district}%`),
@@ -199,7 +199,7 @@ describe('BranchsService unit tests', () => {
       local_number: '230B',
       branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
-      user_id: '37e4d06a-1283-4109-991b-8700e3fe116d',
+      user_id: 1,
     };
 
     it('should throw an error if user by user_id not found', async () => {
@@ -213,7 +213,7 @@ describe('BranchsService unit tests', () => {
         local_number: '230B',
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
-        user_id: 'invalidUserId',
+        user_id: 1,
       };
       jest.spyOn(branchService, 'create').mockImplementationOnce(async () => {
         throw new Error('User not found!');
@@ -253,7 +253,7 @@ describe('BranchsService unit tests', () => {
       local_number: '230B',
       branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
-      user_id: '37e4d06a-1283-4109-991b-8700e3fe116d',
+      user_id: 1,
     };
 
     it('should throw an error if branch not found', async () => {
@@ -262,7 +262,7 @@ describe('BranchsService unit tests', () => {
         .mockRejectedValue(new Error('Branch not found!'));
 
       await expect(
-        branchService.update('invalidId', updateBranchDTO),
+        branchService.update(500, updateBranchDTO),
       ).rejects.toThrowError('Branch not found!');
 
       expect(mockService.save).toHaveBeenCalledTimes(0);
@@ -280,7 +280,7 @@ describe('BranchsService unit tests', () => {
         local_number: '230B',
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
-        user_id: 'invalidUserId',
+        user_id: 500,
       };
       jest
         .spyOn(branchService, 'update')
@@ -322,7 +322,7 @@ describe('BranchsService unit tests', () => {
         .spyOn(branchService, 'remove')
         .mockRejectedValue(new Error('Branch not found!'));
 
-      await expect(branchService.remove('invalidId')).rejects.toThrowError(
+      await expect(branchService.remove(500)).rejects.toThrowError(
         'Branch not found!',
       );
 

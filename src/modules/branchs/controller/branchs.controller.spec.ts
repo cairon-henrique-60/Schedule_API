@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { randomUUID } from 'crypto';
 
 import { User } from '../../../modules/users/entities/user.entity';
 
@@ -26,12 +25,12 @@ describe('BranchsController', () => {
   const mockUser = new User();
   const mockBranch = new Branch();
 
-  mockUser.id = randomUUID();
+  mockUser.id = 1;
   mockUser.user_name = 'John Doe';
   mockUser.user_email = 'johndoe@example.com';
   mockUser.phone_number = '1234567890';
 
-  mockBranch.id = randomUUID();
+  mockBranch.id = 1;
   mockBranch.createdAt = '2024-01-23T11:22:24.000Z';
   mockBranch.updatedAt = '2024-01-23T11:22:24.000Z';
   mockBranch.deletedAt = null;
@@ -75,6 +74,7 @@ describe('BranchsController', () => {
         district: mockBranch.district,
         local_number: mockBranch.local_number,
         complements: mockBranch.complements,
+        user_id: mockUser.id,
         createdAt: '2022-01-01',
         updatedAt: '2022-01-02',
         deletedAt: '2022-01-03',
@@ -100,6 +100,7 @@ describe('BranchsController', () => {
         district: mockBranch.district,
         local_number: mockBranch.local_number,
         complements: mockBranch.complements,
+        user_id: mockUser.id,
         createdAt: '2022-01-01',
         updatedAt: '2022-01-02',
         deletedAt: '2022-01-03',
@@ -114,7 +115,7 @@ describe('BranchsController', () => {
 
   describe('findOne', () => {
     it('should return a branchs object when a valid id is provided', async () => {
-      await branchController.findOne(mockBranch.id);
+      await branchController.findOne(String(mockBranch.id));
 
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith(mockBranch.id);
@@ -132,7 +133,7 @@ describe('BranchsController', () => {
         district: 'Broklyn',
         local_number: '230B',
         complements: 'Ao lado de uma casa',
-        user_id: '37e4d06a-1283-4109-991b-8700e3fe116d',
+        user_id: 1,
       };
 
       await branchController.create(createBranchDTO);
@@ -152,14 +153,14 @@ describe('BranchsController', () => {
       district: 'Broklyn',
       local_number: '230B',
       complements: 'Ao lado de uma casa',
-      user_id: '37e4d06a-1283-4109-991b-8700e3fe116d',
+      user_id: 1,
     };
     it('should update user information when all input data is valid', async () => {
-      await branchController.update(mockUser.id, updateBranchDTO);
+      await branchController.update(String(mockBranch.id), updateBranchDTO);
 
       expect(mockService.update).toHaveBeenCalledTimes(1);
       expect(mockService.update).toHaveBeenCalledWith(
-        mockUser.id,
+        mockBranch.id,
         updateBranchDTO,
       );
     });
@@ -167,7 +168,7 @@ describe('BranchsController', () => {
 
   describe('delete', () => {
     it('should delete a user when a valid id is provided', async () => {
-      await branchController.remove(mockBranch.id);
+      await branchController.remove(String(mockBranch.id));
 
       expect(mockService.remove).toHaveBeenCalledTimes(1);
       expect(mockService.remove).toHaveBeenCalledWith(mockBranch.id);
