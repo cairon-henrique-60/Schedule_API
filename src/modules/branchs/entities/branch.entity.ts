@@ -55,11 +55,11 @@ export class Branch extends Base {
   @JoinTable({
     name: 'branchs_services',
     joinColumn: {
-      name: 'service_id',
+      name: 'branch_id',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'branch_id',
+      name: 'service_id',
       referencedColumnName: 'id',
     },
   })
