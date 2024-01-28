@@ -15,7 +15,7 @@ import { UpdateServiceDto } from '../dto/update-service.dto';
 
 jest.mock('nestjs-typeorm-paginate');
 
-describe('ServicesService', () => {
+describe('ServicesService unit tests', () => {
   let servicesService: ServicesService;
   let userService: UserService;
 
