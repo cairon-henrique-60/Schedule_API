@@ -1,21 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Like, Repository } from 'typeorm';
 
-import { UserService } from '../../../modules/users/service/user.service';
-
-import { CreateServiceDto } from '../dto/create-service.dto';
-import { UpdateServiceDto } from '../dto/update-service.dto';
-import { QuerysServiceDto } from '../dto/querys-service.dto';
-
-import { Service } from '../entities/service.entity';
-
-import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
-import { User } from 'src/modules/users/entities/user.entity';
 import {
   IPaginationOptions,
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
+
+import { User } from '../../../modules/users/entities/user.entity';
+
+import { UserService } from '../../../modules/users/service/user.service';
+import { Service } from '../entities/service.entity';
+
+import { CreateServiceDto } from '../dto/create-service.dto';
+import { UpdateServiceDto } from '../dto/update-service.dto';
+import { QuerysServiceDto } from '../dto/querys-service.dto';
+
+import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 
 @Injectable()
 export class ServicesService {

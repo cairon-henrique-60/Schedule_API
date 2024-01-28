@@ -153,7 +153,6 @@ export class BranchsService {
   }
 
   private async verifyServices(services?: IService[]): Promise<Service[]> {
-    console.log(services);
     if (!services || services.length === 0) {
       return [];
     }
@@ -168,7 +167,6 @@ export class BranchsService {
       }),
     );
 
-    console.log('Lista', servicesList);
     return servicesList;
   }
 }
