@@ -68,7 +68,7 @@ export class BranchServiceEntity1706349635901 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('branchs_services', 'banch_id');
+    await queryRunner.dropForeignKey('branchs_services', 'branch_id');
 
     await queryRunner.dropForeignKey('branchs_services', 'service_id');
 
