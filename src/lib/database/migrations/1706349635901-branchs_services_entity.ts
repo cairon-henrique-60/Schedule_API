@@ -19,7 +19,7 @@ export class BranchServiceEntity1706349635901 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: 'banch_id',
+            name: 'branch_id',
             type: 'int',
           },
           {
@@ -49,7 +49,7 @@ export class BranchServiceEntity1706349635901 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'branchs_services',
       new TableForeignKey({
-        columnNames: ['banch_id'],
+        columnNames: ['branch_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'branchs',
         onDelete: 'CASCADE',

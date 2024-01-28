@@ -1,7 +1,16 @@
-import { Entity, Column, Index, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  Index,
+  ManyToOne,
+  JoinColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 import { Base } from '../../../utils/base.entity';
 import { User } from '../../../modules/users/entities/user.entity';
+import { Service } from '../../../modules/services/entities/service.entity';
 
 @Entity('branchs')
 export class Branch extends Base {
@@ -41,4 +50,18 @@ export class Branch extends Base {
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @JoinTable({
+    name: 'branchs_services',
+    joinColumn: {
+      name: 'branch_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'service_id',
+      referencedColumnName: 'id',
+    },
+  })
+  @ManyToMany(() => Service, (service) => service.branchs, { cascade: true })
+  services: Service[];
 }

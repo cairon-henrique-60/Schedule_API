@@ -1,6 +1,10 @@
 import { z } from 'nestjs-zod/z';
 import { createZodDto } from 'nestjs-zod';
 
+interface IService {
+  id: number;
+}
+
 const branchsSchema = z.object({
   branch_name: z.string(),
   cnpj: z.string().min(14).max(14).optional().nullable(),
@@ -12,6 +16,13 @@ const branchsSchema = z.object({
   branch_phone: z.string().optional().nullable(),
   complements: z.string().max(100),
   user_id: z.number(),
+  services: z
+    .array(
+      z.object({
+        id: z.number().int(),
+      }),
+    )
+    .optional(),
 });
 
 export class CreateBranchDto extends createZodDto(branchsSchema) {
@@ -50,11 +61,11 @@ export class CreateBranchDto extends createZodDto(branchsSchema) {
    * @example 230B
    */
   local_number: string;
-   /**
+  /**
    * Number phone of the branch.
    * @example 32227460
    */
-   branch_phone?: string;
+  branch_phone?: string;
   /**
    * Information additional of the branch.
    * @example Next to the bookstore
@@ -65,4 +76,9 @@ export class CreateBranchDto extends createZodDto(branchsSchema) {
    * @example 1
    */
   user_id: number;
+  /**
+   * Services of the branch.
+   * @example [{id: 1}]
+   */
+  services?: IService[];
 }

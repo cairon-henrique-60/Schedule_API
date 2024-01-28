@@ -517,10 +517,20 @@
             }
           },
           {
-            "name": "user_id",
+            "name": "complements",
             "required": false,
             "in": "query",
             "description": "Information additional of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "required": false,
+            "in": "query",
+            "description": "Owner of the branch.",
+            "example": 1,
             "schema": {
               "type": "number"
             }
@@ -529,7 +539,7 @@
             "name": "createdAt",
             "required": false,
             "in": "query",
-            "description": "Date create of the user.",
+            "description": "Date create of the branch.",
             "example": "2024-01-06",
             "schema": {
               "type": "string"
@@ -539,7 +549,7 @@
             "name": "updatedAt",
             "required": false,
             "in": "query",
-            "description": "Date update of the user.",
+            "description": "Date update of the branch.",
             "example": "2024-01-06",
             "schema": {
               "type": "string"
@@ -549,7 +559,7 @@
             "name": "deletedAt",
             "required": false,
             "in": "query",
-            "description": "Date delete of the user.",
+            "description": "Date delete of the branch.",
             "example": "2024-01-06",
             "schema": {
               "type": "string"
@@ -776,10 +786,20 @@
             }
           },
           {
-            "name": "user_id",
+            "name": "complements",
             "required": false,
             "in": "query",
             "description": "Information additional of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_id",
+            "required": false,
+            "in": "query",
+            "description": "Owner of the branch.",
+            "example": 1,
             "schema": {
               "type": "number"
             }
@@ -788,7 +808,7 @@
             "name": "createdAt",
             "required": false,
             "in": "query",
-            "description": "Date create of the user.",
+            "description": "Date create of the branch.",
             "example": "2024-01-06",
             "schema": {
               "type": "string"
@@ -798,7 +818,7 @@
             "name": "updatedAt",
             "required": false,
             "in": "query",
-            "description": "Date update of the user.",
+            "description": "Date update of the branch.",
             "example": "2024-01-06",
             "schema": {
               "type": "string"
@@ -808,7 +828,7 @@
             "name": "deletedAt",
             "required": false,
             "in": "query",
-            "description": "Date delete of the user.",
+            "description": "Date delete of the branch.",
             "example": "2024-01-06",
             "schema": {
               "type": "string"
@@ -893,6 +913,394 @@
           }
         ]
       }
+    },
+    "/schedule/services/paginate": {
+      "get": {
+        "operationId": "ServicesController_paginate",
+        "parameters": [
+          {
+            "name": "service_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the service.",
+            "example": "Degradê",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "service_value",
+            "required": false,
+            "in": "query",
+            "description": "Value of the service.",
+            "example": 25,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "expected_time",
+            "required": false,
+            "in": "query",
+            "description": "Time of the service.",
+            "example": "25:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "is_active",
+            "required": false,
+            "in": "query",
+            "description": "Is active of the service.",
+            "example": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "user_id",
+            "required": false,
+            "in": "query",
+            "description": "Affiliate user id (owner).",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the service.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the service.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the service.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate service.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate service.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/schedule/services": {
+      "get": {
+        "operationId": "ServicesController_findAll",
+        "parameters": [
+          {
+            "name": "service_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the service.",
+            "example": "Degradê",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "service_value",
+            "required": false,
+            "in": "query",
+            "description": "Value of the service.",
+            "example": 25,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "expected_time",
+            "required": false,
+            "in": "query",
+            "description": "Time of the service.",
+            "example": "25:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "is_active",
+            "required": false,
+            "in": "query",
+            "description": "Is active of the service.",
+            "example": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "user_id",
+            "required": false,
+            "in": "query",
+            "description": "Affiliate user id (owner).",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the service.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the service.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the service.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate service.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate service.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Service"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "ServicesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/schedule/services/{id}": {
+      "get": {
+        "operationId": "ServicesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "ServicesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Service"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "ServicesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "services"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -912,6 +1320,10 @@
     },
     {
       "name": "branchs",
+      "description": ""
+    },
+    {
+      "name": "services",
       "description": ""
     }
   ],
@@ -993,6 +1405,62 @@
           "deletedAt"
         ]
       },
+      "Service": {
+        "type": "object",
+        "properties": {
+          "service_name": {
+            "type": "string"
+          },
+          "service_value": {
+            "type": "number"
+          },
+          "expected_time": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "user_id": {
+            "type": "number"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "branchs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Branch"
+            }
+          },
+          "id": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "deletedAt": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "service_name",
+          "service_value",
+          "expected_time",
+          "is_active",
+          "user_id",
+          "user",
+          "branchs",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "deletedAt"
+        ]
+      },
       "Branch": {
         "type": "object",
         "properties": {
@@ -1029,6 +1497,12 @@
           "user": {
             "$ref": "#/components/schemas/User"
           },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
+          },
           "id": {
             "type": "number"
           },
@@ -1056,6 +1530,7 @@
           "branch_phone",
           "complements",
           "user",
+          "services",
           "id",
           "createdAt",
           "updatedAt",
@@ -1169,6 +1644,14 @@
             "type": "number",
             "description": "Affiliate user id (owner).",
             "example": 1
+          },
+          "services": {
+            "description": "Services of the branch.",
+            "example": "[{id: 1}]",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
           }
         },
         "required": [
@@ -1228,7 +1711,82 @@
           "user_id": {
             "type": "number",
             "description": "Affiliate user id (owner).",
-            "example": "ab#12342"
+            "example": 1
+          },
+          "services": {
+            "description": "Services of the branch.",
+            "example": "[{id: 1}]",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "CreateServiceDto": {
+        "type": "object",
+        "properties": {
+          "service_name": {
+            "type": "string",
+            "description": "Name of the service.",
+            "example": "Degradê"
+          },
+          "service_value": {
+            "type": "number",
+            "description": "Value of the service.",
+            "example": 25
+          },
+          "expected_time": {
+            "type": "string",
+            "description": "Time of the service.",
+            "example": "25:00"
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Is active of the service.",
+            "example": true
+          },
+          "user_id": {
+            "type": "number",
+            "description": "Affiliate user id (owner).",
+            "example": 1
+          }
+        },
+        "required": [
+          "service_name",
+          "service_value",
+          "expected_time",
+          "is_active",
+          "user_id"
+        ]
+      },
+      "UpdateServiceDto": {
+        "type": "object",
+        "properties": {
+          "service_name": {
+            "type": "string",
+            "description": "Name of the service.",
+            "example": "Degradê"
+          },
+          "service_value": {
+            "type": "number",
+            "description": "Value of the service.",
+            "example": 25
+          },
+          "expected_time": {
+            "type": "string",
+            "description": "Time of the service.",
+            "example": "25:00"
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Is active of the service.",
+            "example": true
+          },
+          "user_id": {
+            "type": "number",
+            "description": "Affiliate user id (owner).",
+            "example": 1
           }
         }
       }
