@@ -128,8 +128,7 @@ export class ServicesService {
     });
 
     if (is_active !== undefined) {
-      whereClause['is_active'] =
-        typeof is_active === 'boolean' ? is_active.toString() : is_active;
+      whereClause['is_active'] = is_active.toString() === 'true' ? 1 : 0;
     }
 
     return whereClause;

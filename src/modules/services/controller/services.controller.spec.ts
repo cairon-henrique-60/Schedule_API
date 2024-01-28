@@ -5,9 +5,9 @@ import { Branch } from '../../../modules/branchs/entities/branch.entity';
 import { User } from '../../../modules/users/entities/user.entity';
 
 import { Service } from '../entities/service.entity';
-
 import { ServicesController } from './services.controller';
 import { ServicesService } from '../services/services.service';
+
 import { QuerysServiceDto } from '../dto/querys-service.dto';
 import { CreateServiceDto } from '../dto/create-service.dto';
 import { UpdateServiceDto } from '../dto/update-service.dto';
