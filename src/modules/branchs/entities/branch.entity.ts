@@ -51,7 +51,6 @@ export class Branch extends Base {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToMany(() => Service, (service) => service.branchs)
   @JoinTable({
     name: 'branchs_services',
     joinColumn: {
@@ -63,5 +62,6 @@ export class Branch extends Base {
       referencedColumnName: 'id',
     },
   })
+  @ManyToMany(() => Service, (service) => service.branchs, { cascade: true })
   services: Service[];
 }

@@ -3,7 +3,6 @@ import {
   Entity,
   Index,
   JoinColumn,
-  JoinTable,
   ManyToMany,
   ManyToOne,
 } from 'typeorm';
@@ -36,16 +35,5 @@ export class Service extends Base {
   user: User;
 
   @ManyToMany(() => Branch, (branch) => branch.services)
-  @JoinTable({
-    name: 'branchs_services',
-    joinColumn: {
-      name: 'service_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'branch_id',
-      referencedColumnName: 'id',
-    },
-  })
   branchs: Branch[];
 }

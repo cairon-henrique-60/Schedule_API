@@ -59,10 +59,7 @@ export class ServicesService {
 
     const services = await this.serviceRepository.find({
       where: whereClause,
-      relations: {
-        user: true,
-        branchs: true,
-      },
+      relations: ['user', 'branchs'],
     });
 
     const mappedServices = services.map((service) =>
@@ -75,7 +72,7 @@ export class ServicesService {
   async findOne(id: number): Promise<Service> {
     const service = await this.serviceRepository.findOne({
       where: { id },
-      relations: ['branchs'],
+      relations: ['user', 'branchs'],
     });
 
     if (!service) {

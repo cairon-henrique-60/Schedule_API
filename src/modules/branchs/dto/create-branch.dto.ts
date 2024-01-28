@@ -1,6 +1,9 @@
 import { z } from 'nestjs-zod/z';
 import { createZodDto } from 'nestjs-zod';
-import { Service } from '../../../modules/services/entities/service.entity';
+
+interface IService {
+  id: number;
+}
 
 const branchsSchema = z.object({
   branch_name: z.string(),
@@ -16,7 +19,7 @@ const branchsSchema = z.object({
   services: z
     .array(
       z.object({
-        id: z.number().int().positive(),
+        id: z.number().int(),
       }),
     )
     .optional(),
@@ -74,11 +77,8 @@ export class CreateBranchDto extends createZodDto(branchsSchema) {
    */
   user_id: number;
   /**
-   * Services of the branch
-   * @example [
-   *   {id: 1},
-   *   {id: 2}
-   * ]
+   * Services of the branch.
+   * @example [{id: 1}]
    */
-  services?: Service[];
+  services?: IService[];
 }
