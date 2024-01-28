@@ -10,7 +10,7 @@ import {
 import { Base } from '../../../utils/base.entity';
 
 import { Branch } from '../../branchs/entities/branch.entity';
-import { User } from 'src/modules/users/entities/user.entity';
+import { User } from '../../../modules/users/entities/user.entity';
 
 @Entity('services')
 export class Service extends Base {

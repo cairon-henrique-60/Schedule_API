@@ -5,6 +5,9 @@ import { Like } from 'typeorm';
 import { UserService } from '../../../modules/users/service/user.service';
 import { User } from '../../../modules/users/entities/user.entity';
 
+import { Service } from '../../../modules/services/entities/service.entity';
+import { ServicesService } from '../../../modules/services/services/services.service';
+
 import { Branch } from '../entities/branch.entity';
 import { BranchsService } from './branchs.service';
 
@@ -17,6 +20,7 @@ jest.mock('nestjs-typeorm-paginate');
 describe('BranchsService unit tests', () => {
   let branchService: BranchsService;
   let userService: UserService;
+  let servicesService: ServicesService;
 
   const mockService = {
     createQueryBuilder: jest.fn(),
@@ -30,11 +34,22 @@ describe('BranchsService unit tests', () => {
 
   const mockUser = new User();
   const mockBranch = new Branch();
+  const mockServicesEntity = new Service();
 
   mockUser.id = 1;
   mockUser.user_name = 'John Doe';
   mockUser.user_email = 'johndoe@example.com';
   mockUser.phone_number = '1234567890';
+
+  mockServicesEntity.id = 1;
+  mockServicesEntity.createdAt = '2024-01-23T11:22:24.000Z';
+  mockServicesEntity.updatedAt = '2024-01-23T11:22:24.000Z';
+  mockServicesEntity.deletedAt = null;
+  mockServicesEntity.service_name = 'Degradê';
+  mockServicesEntity.service_value = 25.0;
+  mockServicesEntity.expected_time = '25';
+  mockServicesEntity.is_active = true;
+  mockServicesEntity.user_id = mockUser.id;
 
   mockBranch.id = 1;
   mockBranch.createdAt = '2024-01-23T11:22:24.000Z';
@@ -51,19 +66,23 @@ describe('BranchsService unit tests', () => {
   mockBranch.branch_phone = '32227460';
   mockBranch.complements = 'Main Street';
   mockBranch.user = mockUser;
+  mockBranch.services = [mockServicesEntity];
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        ServicesService,
         BranchsService,
         UserService,
-        { provide: 'BRANCH_REPOSITORY', useValue: mockService },
         { provide: 'USER_REPOSITORY', useValue: mockService },
+        { provide: 'BRANCH_REPOSITORY', useValue: mockService },
+        { provide: 'SERVICES_REPOSITORY', useValue: mockService },
       ],
     }).compile();
 
-    branchService = module.get<BranchsService>(BranchsService);
     userService = module.get<UserService>(UserService);
+    branchService = module.get<BranchsService>(BranchsService);
+    servicesService = module.get<ServicesService>(ServicesService);
   });
 
   beforeEach(() => {
@@ -72,8 +91,9 @@ describe('BranchsService unit tests', () => {
   });
 
   it('should be defined', () => {
-    expect(branchService).toBeDefined();
     expect(userService).toBeDefined();
+    expect(branchService).toBeDefined();
+    expect(servicesService).toBeDefined();
   });
 
   describe('paginate', () => {
@@ -97,6 +117,7 @@ describe('BranchsService unit tests', () => {
       expect(mockService.createQueryBuilder).toHaveBeenCalledWith('b');
       expect(mockService.createQueryBuilder().select).toHaveBeenCalledWith([
         'b',
+        's',
         'u.id',
         'u.user_name',
         'u.user_email',
@@ -105,6 +126,10 @@ describe('BranchsService unit tests', () => {
       expect(mockService.createQueryBuilder().leftJoin).toHaveBeenCalledWith(
         'b.user',
         'u',
+      );
+      expect(mockService.createQueryBuilder().leftJoin).toHaveBeenCalledWith(
+        'b.services',
+        's',
       );
       expect(mockService.createQueryBuilder().where).toHaveBeenCalledWith({
         branch_name: Like(`%${mockParams.branch_name}%`),
@@ -127,7 +152,7 @@ describe('BranchsService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: 500 },
-        relations: ['user'],
+        relations: ['user', 'services'],
       });
     });
 
@@ -180,7 +205,7 @@ describe('BranchsService unit tests', () => {
           cnpj: Like(`%${params.cnpj}%`),
           branch_name: Like(`%${params.branch_name}%`),
         },
-        relations: ['user'],
+        relations: ['user', 'services'],
       });
 
       expect(result).toEqual([]);
@@ -200,6 +225,11 @@ describe('BranchsService unit tests', () => {
       branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
       user_id: 1,
+      services: [
+        {
+          id: 1,
+        },
+      ],
     };
 
     it('should throw an error if user by user_id not found', async () => {
@@ -214,6 +244,11 @@ describe('BranchsService unit tests', () => {
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
         user_id: 1,
+        services: [
+          {
+            id: 1,
+          },
+        ],
       };
       jest.spyOn(branchService, 'create').mockImplementationOnce(async () => {
         throw new Error('User not found!');
@@ -222,6 +257,41 @@ describe('BranchsService unit tests', () => {
       await expect(
         branchService.create(createBranchDTOError),
       ).rejects.toThrowError('User not found!');
+
+      expect(mockService.save).toHaveBeenCalledTimes(0);
+      expect(mockService.create).toHaveBeenCalledTimes(0);
+      expect(branchService.create).toHaveBeenCalledWith(createBranchDTOError);
+    });
+
+    it('should throw an error if any service by id not found', async () => {
+      const createBranchDTOError: CreateBranchDto = {
+        branch_name: 'Poli Shop',
+        cnpj: '12345678000300',
+        street: 'Rua San Francisco',
+        cep: '36150000',
+        city: 'New York',
+        district: 'Broklyn',
+        local_number: '230B',
+        branch_phone: '32227460',
+        complements: 'Ao lado de uma casa',
+        user_id: 1,
+        services: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
+      };
+
+      jest.spyOn(branchService, 'create').mockImplementationOnce(async () => {
+        throw new Error('Service with ID 2 not found.');
+      });
+
+      await expect(
+        branchService.create(createBranchDTOError),
+      ).rejects.toThrowError('Service with ID 2 not found.');
 
       expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
@@ -254,6 +324,11 @@ describe('BranchsService unit tests', () => {
       branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
       user_id: 1,
+      services: [
+        {
+          id: 1,
+        },
+      ],
     };
 
     it('should throw an error if branch not found', async () => {
@@ -281,6 +356,11 @@ describe('BranchsService unit tests', () => {
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
         user_id: 500,
+        services: [
+          {
+            id: 1,
+          },
+        ],
       };
       jest
         .spyOn(branchService, 'update')
@@ -290,8 +370,45 @@ describe('BranchsService unit tests', () => {
         branchService.update(mockBranch.id, updateBranchDTOError),
       ).rejects.toThrowError('User not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
-      expect(mockService.create).toHaveBeenCalledTimes(0);
+      expect(mockService.update).toHaveBeenCalledTimes(0);
+      expect(mockService.findOne).toHaveBeenCalledTimes(0);
+    });
+
+    it('should throw an error if any service by id not found', async () => {
+      const updateBranchDTOError: UpdateBranchDto = {
+        branch_name: 'Poli Shop',
+        cnpj: '12345678000300',
+        street: 'Rua San Francisco',
+        cep: '36150000',
+        city: 'New York',
+        district: 'Broklyn',
+        local_number: '230B',
+        branch_phone: '32227460',
+        complements: 'Ao lado de uma casa',
+        user_id: 1,
+        services: [
+          {
+            id: 1,
+          },
+          {
+            id: 2,
+          },
+        ],
+      };
+
+      jest.spyOn(branchService, 'update').mockImplementationOnce(async () => {
+        throw new Error('Service with ID 2 not found.');
+      });
+
+      await expect(
+        branchService.update(mockBranch.id, updateBranchDTOError),
+      ).rejects.toThrowError('Service with ID 2 not found.');
+
+      expect(mockService.update).toHaveBeenCalledTimes(0);
+      expect(branchService.update).toHaveBeenCalledWith(
+        mockBranch.id,
+        updateBranchDTOError,
+      );
     });
 
     it('should update a branchs with valid input data', async () => {
@@ -341,7 +458,7 @@ describe('BranchsService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: mockBranch.id },
-        relations: ['user'],
+        relations: ['user', 'services'],
       });
 
       expect(mockService.delete).toHaveBeenCalledTimes(1);
