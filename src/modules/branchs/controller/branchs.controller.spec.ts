@@ -10,7 +10,7 @@ import { QuerysBranchDto } from '../dto/querys-branch.dto';
 import { CreateBranchDto } from '../dto/create-branch.dto';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 
-describe('BranchsController', () => {
+describe('BranchsController unit tests', () => {
   let branchController: BranchsController;
 
   const mockService = {
@@ -64,7 +64,7 @@ describe('BranchsController', () => {
   });
 
   describe('paginate', () => {
-    it('should paginate return an empty array when no branchs match the query parameters', async () => {
+    it('should paginate return an empty array when no branchs', async () => {
       const params: QuerysBranchDto = {
         branch_name: mockBranch.branch_name,
         cnpj: mockBranch.cnpj,
@@ -155,7 +155,7 @@ describe('BranchsController', () => {
       complements: 'Ao lado de uma casa',
       user_id: 1,
     };
-    it('should update user information when all input data is valid', async () => {
+    it('should update service information when all input data is valid', async () => {
       await branchController.update(String(mockBranch.id), updateBranchDTO);
 
       expect(mockService.update).toHaveBeenCalledTimes(1);
@@ -167,7 +167,7 @@ describe('BranchsController', () => {
   });
 
   describe('delete', () => {
-    it('should delete a user when a valid id is provided', async () => {
+    it('should delete a branch when a valid id is provided', async () => {
       await branchController.remove(String(mockBranch.id));
 
       expect(mockService.remove).toHaveBeenCalledTimes(1);
