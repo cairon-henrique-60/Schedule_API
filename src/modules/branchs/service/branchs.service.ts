@@ -52,14 +52,14 @@ export class BranchsService {
     queryBuilder
       .select([
         'b',
-        'br',
+        's',
         'u.id',
         'u.user_name',
         'u.user_email',
         'u.phone_number',
       ])
       .leftJoin('b.user', 'u')
-      .leftJoin('b.branchs', 'br')
+      .leftJoin('b.services', 's')
       .where(whereClause);
 
     return paginate<Branch>(queryBuilder, options);
@@ -140,7 +140,7 @@ export class BranchsService {
 
     await this.branchsRepository.update(id, {
       ...rest,
-      services: await this.verifyServices(services),
+      services: services && (await this.verifyServices(services)),
     });
 
     return this.findOne(id);
