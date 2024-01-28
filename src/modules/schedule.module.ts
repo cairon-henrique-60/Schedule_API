@@ -13,7 +13,7 @@ import { ServicesModule } from './services/services.module';
     AuthModule,
     UserModule,
     BranchsModule,
-    // ServicesModule,
+    ServicesModule,
     DatabaseModule,
     ConfigAppModule,
   ],

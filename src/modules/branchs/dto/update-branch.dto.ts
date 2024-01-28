@@ -71,7 +71,7 @@ export class UpdateBranchDto extends createZodDto(branchsSchema) {
   complements?: string;
   /**
    * Affiliate user id (owner).
-   * @example ab#12342
+   * @example 1
    */
   user_id?: number;
   /**

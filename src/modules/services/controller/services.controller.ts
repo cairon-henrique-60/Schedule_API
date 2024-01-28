@@ -3,35 +3,58 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
+  Query,
+  UseInterceptors,
 } from '@nestjs/common';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
+import { DataBaseInterceptor } from '../../../http-exceptions/errors/interceptors/dataBase.interceptor';
+
 import { ServicesService } from '../services/services.service';
+
+import { Service } from '../entities/service.entity';
+
 import { CreateServiceDto } from '../dto/create-service.dto';
 import { UpdateServiceDto } from '../dto/update-service.dto';
+import { QuerysServiceDto } from '../dto/querys-service.dto';
 
+@ApiBearerAuth()
+@ApiTags('services')
 @Controller('services')
 export class ServicesController {
   constructor(private readonly servicesService: ServicesService) {}
 
-  @Post()
-  create(@Body() createServiceDto: CreateServiceDto) {
-    return this.servicesService.create(createServiceDto);
+  @Get('paginate')
+  paginate(@Query() query: QuerysServiceDto): Promise<Pagination<Service>> {
+    return this.servicesService.paginateServices(query);
   }
 
   @Get()
-  findAll() {
-    return this.servicesService.findAll();
+  findAll(@Query() query: QuerysServiceDto): Promise<Service[]> {
+    return this.servicesService.findAll(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Service> {
     return this.servicesService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
+  @Post()
+  @UseInterceptors(DataBaseInterceptor)
+  create(@Body() createServiceDto: CreateServiceDto): Promise<Service> {
+    return this.servicesService.create(createServiceDto);
+  }
+
+  @Put(':id')
+  @UseInterceptors(DataBaseInterceptor)
+  update(
+    @Param('id') id: string,
+    @Body() updateServiceDto: UpdateServiceDto,
+  ): Promise<Service> {
     return this.servicesService.update(+id, updateServiceDto);
   }
 

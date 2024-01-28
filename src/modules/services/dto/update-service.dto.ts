@@ -1,20 +1,12 @@
 import { z } from 'nestjs-zod/z';
 import { createZodDto } from 'nestjs-zod';
 
-import { Branch } from '../../../modules/branchs/entities/branch.entity';
-
 const serviceSchema = z.object({
   service_name: z.string().optional(),
   service_value: z.number().optional(),
   expected_time: z.string().optional(),
   is_active: z.boolean().optional(),
-  branchs: z
-    .array(
-      z.object({
-        id: z.number().int().positive(),
-      }),
-    )
-    .optional(),
+  user_id: z.number().optional(),
 });
 
 export class UpdateServiceDto extends createZodDto(serviceSchema) {
@@ -39,11 +31,8 @@ export class UpdateServiceDto extends createZodDto(serviceSchema) {
    */
   is_active?: boolean;
   /**
-   * Branchs of the service
-   * @example [
-   *   {id: 1},
-   *   {id: 2}
-   * ]
+   * Affiliate user id (owner).
+   * @example 1
    */
-  services?: Branch[];
+  user_id?: number;
 }

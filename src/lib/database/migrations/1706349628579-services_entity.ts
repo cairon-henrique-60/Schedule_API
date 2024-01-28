@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export class ServicesEntity1706349628579 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -31,6 +36,10 @@ export class ServicesEntity1706349628579 implements MigrationInterface {
             default: true,
           },
           {
+            name: 'user_id',
+            type: 'int',
+          },
+          {
             name: 'createdAt',
             type: 'timestamp',
             default: 'CURRENT_TIMESTAMP',
@@ -49,9 +58,21 @@ export class ServicesEntity1706349628579 implements MigrationInterface {
         ],
       }),
     );
+
+    await queryRunner.createForeignKey(
+      'services',
+      new TableForeignKey({
+        columnNames: ['user_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'user',
+        onDelete: 'CASCADE',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('services', 'user_id');
+
     await queryRunner.dropTable('services');
   }
 }

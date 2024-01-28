@@ -7,6 +7,7 @@ const serviceSchema = z.object({
   service_value: z.number().optional(),
   expected_time: z.string().optional(),
   is_active: z.boolean().optional(),
+  user_id: z.number().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
   deletedAt: z.string().optional(),
@@ -39,6 +40,12 @@ export class QuerysServiceDto extends createZodDto(serviceSchema) {
    */
   @ApiPropertyOptional()
   is_active?: boolean;
+  /**
+   * Affiliate user id (owner).
+   * @example 1
+   */
+  @ApiPropertyOptional()
+  user_id?: number;
   /**
    *Date create of the service.
    *@example 2024-01-06
