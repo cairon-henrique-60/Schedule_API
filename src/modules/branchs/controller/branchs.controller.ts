@@ -32,24 +32,27 @@ export class BranchsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Branch> {
     return this.branchsService.findOne(+id);
   }
 
   @Get()
-  findAll(@Query() querys: QuerysBranchDto) {
+  findAll(@Query() querys: QuerysBranchDto): Promise<Branch[]> {
     return this.branchsService.findAll(querys);
   }
 
   @Post()
   @UseInterceptors(DataBaseInterceptor)
-  create(@Body() createBranchDto: CreateBranchDto) {
+  create(@Body() createBranchDto: CreateBranchDto): Promise<Branch> {
     return this.branchsService.create(createBranchDto);
   }
 
   @Put(':id')
   @UseInterceptors(DataBaseInterceptor)
-  update(@Param('id') id: string, @Body() updateBranchDto: UpdateBranchDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateBranchDto: UpdateBranchDto,
+  ): Promise<Branch> {
     return this.branchsService.update(+id, updateBranchDto);
   }
 
