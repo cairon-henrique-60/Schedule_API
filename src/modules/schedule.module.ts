@@ -7,6 +7,7 @@ import { UserModule } from './users/user.module';
 import { BranchsModule } from './branchs/branchs.module';
 import { ConfigAppModule } from './config/configAPP.module';
 import { ServicesModule } from './services/services.module';
+import { ClientsModule } from './clients/clients.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ServicesModule } from './services/services.module';
     ServicesModule,
     DatabaseModule,
     ConfigAppModule,
+    ClientsModule,
   ],
 })
 export class ScheduleModule {}

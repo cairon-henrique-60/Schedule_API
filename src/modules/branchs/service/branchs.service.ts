@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 
 import {
   paginate,
@@ -146,7 +146,7 @@ export class BranchsService {
     return this.findOne(id);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<DeleteResult> {
     await this.findOne(id);
 
     return this.branchsRepository.delete(id);

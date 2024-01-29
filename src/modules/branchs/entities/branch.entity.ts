@@ -6,11 +6,13 @@ import {
   JoinColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 
 import { Base } from '../../../utils/base.entity';
 import { User } from '../../../modules/users/entities/user.entity';
 import { Service } from '../../../modules/services/entities/service.entity';
+import { Client } from 'src/modules/clients/entities/client.entity';
 
 @Entity('branchs')
 export class Branch extends Base {
@@ -50,6 +52,9 @@ export class Branch extends Base {
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => Client, (client) => client.branch)
+  Client: Client[];
 
   @JoinTable({
     name: 'branchs_services',

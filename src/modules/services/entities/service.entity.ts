@@ -23,7 +23,7 @@ export class Service extends Base {
   @Column('varchar')
   expected_time: string;
 
-  @Column({ type: 'varchar', default: true })
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
   @Index()
