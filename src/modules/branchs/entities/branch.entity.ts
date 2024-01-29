@@ -11,8 +11,8 @@ import {
 
 import { Base } from '../../../utils/base.entity';
 import { User } from '../../../modules/users/entities/user.entity';
+import { Client } from '../../../modules/clients/entities/client.entity';
 import { Service } from '../../../modules/services/entities/service.entity';
-import { Client } from 'src/modules/clients/entities/client.entity';
 
 @Entity('branchs')
 export class Branch extends Base {

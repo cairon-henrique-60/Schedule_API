@@ -5,6 +5,8 @@ import { Like } from 'typeorm';
 import { UserService } from '../../../modules/users/service/user.service';
 import { User } from '../../../modules/users/entities/user.entity';
 
+import { Client } from '../../../modules/clients/entities/client.entity';
+
 import { Service } from '../../../modules/services/entities/service.entity';
 import { ServicesService } from '../../../modules/services/services/services.service';
 
@@ -34,6 +36,7 @@ describe('BranchsService unit tests', () => {
 
   const mockUser = new User();
   const mockBranch = new Branch();
+  const mockClient = new Client();
   const mockServicesEntity = new Service();
 
   mockUser.id = 1;
@@ -51,6 +54,12 @@ describe('BranchsService unit tests', () => {
   mockServicesEntity.is_active = true;
   mockServicesEntity.user_id = mockUser.id;
 
+  mockClient.id = 1;
+  mockClient.client_name = 'Jhon';
+  mockClient.first_name = 'Doe';
+  mockClient.birth_date = '11/03/1990';
+  mockClient.branch_id = mockBranch.id;
+
   mockBranch.id = 1;
   mockBranch.createdAt = '2024-01-23T11:22:24.000Z';
   mockBranch.updatedAt = '2024-01-23T11:22:24.000Z';
@@ -66,6 +75,7 @@ describe('BranchsService unit tests', () => {
   mockBranch.branch_phone = '32227460';
   mockBranch.complements = 'Main Street';
   mockBranch.user = mockUser;
+  mockBranch.clients = [mockClient];
   mockBranch.services = [mockServicesEntity];
 
   beforeAll(async () => {
@@ -118,6 +128,7 @@ describe('BranchsService unit tests', () => {
       expect(mockService.createQueryBuilder().select).toHaveBeenCalledWith([
         'b',
         's',
+        'c',
         'u.id',
         'u.user_name',
         'u.user_email',
@@ -130,6 +141,10 @@ describe('BranchsService unit tests', () => {
       expect(mockService.createQueryBuilder().leftJoin).toHaveBeenCalledWith(
         'b.services',
         's',
+      );
+      expect(mockService.createQueryBuilder().leftJoin).toHaveBeenCalledWith(
+        'b.clients',
+        'c',
       );
       expect(mockService.createQueryBuilder().where).toHaveBeenCalledWith({
         branch_name: Like(`%${mockParams.branch_name}%`),
@@ -152,7 +167,7 @@ describe('BranchsService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: 500 },
-        relations: ['user', 'services'],
+        relations: ['user', 'services', 'clients'],
       });
     });
 
@@ -205,7 +220,7 @@ describe('BranchsService unit tests', () => {
           cnpj: Like(`%${params.cnpj}%`),
           branch_name: Like(`%${params.branch_name}%`),
         },
-        relations: ['user', 'services'],
+        relations: ['user', 'services', 'clients'],
       });
 
       expect(result).toEqual([]);
@@ -458,7 +473,7 @@ describe('BranchsService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: mockBranch.id },
-        relations: ['user', 'services'],
+        relations: ['user', 'services', 'clients'],
       });
 
       expect(mockService.delete).toHaveBeenCalledTimes(1);
