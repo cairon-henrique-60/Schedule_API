@@ -28,7 +28,7 @@ export class Clients1706522540771 implements MigrationInterface {
           },
           {
             name: 'birth_date',
-            type: 'date',
+            type: 'varchar',
           },
           {
             name: 'is_active',

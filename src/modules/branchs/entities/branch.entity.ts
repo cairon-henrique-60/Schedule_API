@@ -54,7 +54,7 @@ export class Branch extends Base {
   user: User;
 
   @OneToMany(() => Client, (client) => client.branch)
-  Client: Client[];
+  clients: Client[];
 
   @JoinTable({
     name: 'branchs_services',

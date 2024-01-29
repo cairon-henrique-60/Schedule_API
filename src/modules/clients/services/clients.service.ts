@@ -37,7 +37,7 @@ export class ClientsService {
     const queryBuilder = this.clientRepository.createQueryBuilder('c');
     queryBuilder
       .select(['c', 'b'])
-      .leftJoin('c.branchs', 'b')
+      .leftJoin('c.branch', 'b')
       .where(whereClause);
 
     return paginate<Client>(queryBuilder, options);
@@ -48,14 +48,14 @@ export class ClientsService {
 
     return await this.clientRepository.find({
       where: whereClause,
-      relations: ['branchs'],
+      relations: ['branch'],
     });
   }
 
   async findOne(id: number): Promise<Client> {
     const client = await this.clientRepository.findOne({
       where: { id },
-      relations: ['branchs'],
+      relations: ['branch'],
     });
 
     if (!client) {

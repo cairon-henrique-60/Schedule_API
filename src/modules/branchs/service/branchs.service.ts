@@ -53,6 +53,7 @@ export class BranchsService {
       .select([
         'b',
         's',
+        'c',
         'u.id',
         'u.user_name',
         'u.user_email',
@@ -60,6 +61,7 @@ export class BranchsService {
       ])
       .leftJoin('b.user', 'u')
       .leftJoin('b.services', 's')
+      .leftJoin('b.clients', 'c')
       .where(whereClause);
 
     return paginate<Branch>(queryBuilder, options);
@@ -76,7 +78,7 @@ export class BranchsService {
 
     const branchs = await this.branchsRepository.find({
       where: whereClause,
-      relations: ['user', 'services'],
+      relations: ['user', 'services', 'clients'],
     });
 
     const response = branchs.map(({ user, ...restBranch }) => ({
@@ -95,7 +97,7 @@ export class BranchsService {
   async findOne(id: number): Promise<Branch> {
     const branch = await this.branchsRepository.findOne({
       where: { id },
-      relations: ['user', 'services'],
+      relations: ['user', 'services', 'clients'],
     });
     if (!branch) {
       throw new NotFoundError('Branch not found!');
