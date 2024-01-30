@@ -2,6 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { User } from '../../../modules/users/entities/user.entity';
 
+import { Client } from '../../../modules/clients/entities/client.entity';
+
+import { Service } from '../../../modules/services/entities/service.entity';
+
 import { Branch } from '../entities/branch.entity';
 import { BranchsController } from './branchs.controller';
 import { BranchsService } from '../service/branchs.service';
@@ -24,11 +28,37 @@ describe('BranchsController unit tests', () => {
 
   const mockUser = new User();
   const mockBranch = new Branch();
+  const mockClient = new Client();
+  const mockServicesEntity = new Service();
 
   mockUser.id = 1;
   mockUser.user_name = 'John Doe';
   mockUser.user_email = 'johndoe@example.com';
   mockUser.phone_number = '1234567890';
+
+  mockClient.id = 1;
+  mockClient.createdAt = '2024-01-30T11:24:40.000Z';
+  mockClient.updatedAt = '2024-01-30T11:24:40.000Z';
+  mockClient.deletedAt = null;
+  mockClient.client_name = 'John';
+  mockClient.first_name = 'Doe';
+  mockClient.birth_date = '11/03/1994';
+  mockClient.client_phone = '32227568';
+  mockClient.is_active = true;
+  mockClient.branch_id = mockBranch.id;
+  mockClient.branch = mockBranch;
+
+  mockServicesEntity.id = 1;
+  mockServicesEntity.createdAt = '2024-01-23T11:22:24.000Z';
+  mockServicesEntity.updatedAt = '2024-01-23T11:22:24.000Z';
+  mockServicesEntity.deletedAt = null;
+  mockServicesEntity.service_name = 'Degradê';
+  mockServicesEntity.service_value = 25.0;
+  mockServicesEntity.expected_time = '25';
+  mockServicesEntity.is_active = true;
+  mockServicesEntity.user_id = mockUser.id;
+  mockServicesEntity.user = mockUser;
+  mockServicesEntity.branchs = [mockBranch];
 
   mockBranch.id = 1;
   mockBranch.createdAt = '2024-01-23T11:22:24.000Z';
@@ -39,11 +69,15 @@ describe('BranchsController unit tests', () => {
   mockBranch.street = 'Rua Alameda';
   mockBranch.cep = '36150000';
   mockBranch.city = 'New York';
+  mockBranch.opening_hours = '08:00';
+  mockBranch.closing_hours = '18:00';
   mockBranch.user_id = mockUser.id;
   mockBranch.district = 'Broklyn';
   mockBranch.local_number = '230B';
   mockBranch.complements = 'Main Street';
   mockBranch.user = mockUser;
+  mockBranch.services = [mockServicesEntity];
+  mockBranch.clients = [mockClient];
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -100,6 +134,8 @@ describe('BranchsController unit tests', () => {
         district: mockBranch.district,
         local_number: mockBranch.local_number,
         complements: mockBranch.complements,
+        opening_hours: mockBranch.opening_hours,
+        closing_hours: mockBranch.closing_hours,
         user_id: mockUser.id,
         createdAt: '2022-01-01',
         updatedAt: '2022-01-02',
@@ -133,6 +169,8 @@ describe('BranchsController unit tests', () => {
         district: 'Broklyn',
         local_number: '230B',
         complements: 'Ao lado de uma casa',
+        opening_hours: '08:00',
+        closing_hours: '18:00',
         user_id: 1,
       };
 
@@ -153,6 +191,8 @@ describe('BranchsController unit tests', () => {
       district: 'Broklyn',
       local_number: '230B',
       complements: 'Ao lado de uma casa',
+      opening_hours: '08:00',
+      closing_hours: '18:00',
       user_id: 1,
     };
     it('should update service information when all input data is valid', async () => {

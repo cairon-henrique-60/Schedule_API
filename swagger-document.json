@@ -526,6 +526,26 @@
             }
           },
           {
+            "name": "opening_hours",
+            "required": false,
+            "in": "query",
+            "description": "Start of branch office hours",
+            "example": "08:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "closing_hours",
+            "required": false,
+            "in": "query",
+            "description": "End of branch office hours",
+            "example": "08:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "user_id",
             "required": false,
             "in": "query",
@@ -790,6 +810,26 @@
             "required": false,
             "in": "query",
             "description": "Information additional of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "opening_hours",
+            "required": false,
+            "in": "query",
+            "description": "Start of branch office hours",
+            "example": "08:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "closing_hours",
+            "required": false,
+            "in": "query",
+            "description": "End of branch office hours",
+            "example": "08:00",
             "schema": {
               "type": "string"
             }
@@ -1301,6 +1341,414 @@
           }
         ]
       }
+    },
+    "/schedule/clients/paginate": {
+      "get": {
+        "operationId": "ClientsController_paginate",
+        "parameters": [
+          {
+            "name": "client_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the client.",
+            "example": "John",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "first_name",
+            "required": false,
+            "in": "query",
+            "description": "First name of the client.",
+            "example": "Doe",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "birth_date",
+            "required": false,
+            "in": "query",
+            "description": "Birth date of the client.",
+            "example": "11/03/1994",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_phone",
+            "required": false,
+            "in": "query",
+            "description": "Phone of the client.",
+            "example": "32227568",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "is_active",
+            "required": false,
+            "in": "query",
+            "description": "Is active of the client.",
+            "example": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "branch_id",
+            "required": false,
+            "in": "query",
+            "description": "Branch of the client.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the client.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the client.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the client.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate clients.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate clients.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/schedule/clients": {
+      "get": {
+        "operationId": "ClientsController_findAll",
+        "parameters": [
+          {
+            "name": "client_name",
+            "required": false,
+            "in": "query",
+            "description": "Name of the client.",
+            "example": "John",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "first_name",
+            "required": false,
+            "in": "query",
+            "description": "First name of the client.",
+            "example": "Doe",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "birth_date",
+            "required": false,
+            "in": "query",
+            "description": "Birth date of the client.",
+            "example": "11/03/1994",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_phone",
+            "required": false,
+            "in": "query",
+            "description": "Phone of the client.",
+            "example": "32227568",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "is_active",
+            "required": false,
+            "in": "query",
+            "description": "Is active of the client.",
+            "example": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "branch_id",
+            "required": false,
+            "in": "query",
+            "description": "Branch of the client.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "createdAt",
+            "required": false,
+            "in": "query",
+            "description": "Date create of the client.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "updatedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date update of the client.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deletedAt",
+            "required": false,
+            "in": "query",
+            "description": "Date delete of the client.",
+            "example": "2024-01-06",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Limite data of the paginate clients.",
+            "example": 100,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Current page of the paginate clients.",
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Client"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "ClientsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateClientDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/schedule/clients/{id}": {
+      "get": {
+        "operationId": "ClientsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "ClientsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClientDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "ClientsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -1324,6 +1772,10 @@
     },
     {
       "name": "services",
+      "description": ""
+    },
+    {
+      "name": "clients",
       "description": ""
     }
   ],
@@ -1399,6 +1851,59 @@
           "user_email",
           "phone_number",
           "branchs",
+          "id",
+          "createdAt",
+          "updatedAt",
+          "deletedAt"
+        ]
+      },
+      "Client": {
+        "type": "object",
+        "properties": {
+          "client_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "birth_date": {
+            "type": "string"
+          },
+          "client_phone": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "branch_id": {
+            "type": "number"
+          },
+          "branch": {
+            "$ref": "#/components/schemas/Branch"
+          },
+          "id": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "deletedAt": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "client_name",
+          "first_name",
+          "birth_date",
+          "client_phone",
+          "is_active",
+          "branch_id",
+          "branch",
           "id",
           "createdAt",
           "updatedAt",
@@ -1494,8 +1999,20 @@
           "complements": {
             "type": "string"
           },
+          "opening_hours": {
+            "type": "string"
+          },
+          "closing_hours": {
+            "type": "string"
+          },
           "user": {
             "$ref": "#/components/schemas/User"
+          },
+          "clients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Client"
+            }
           },
           "services": {
             "type": "array",
@@ -1529,7 +2046,10 @@
           "local_number",
           "branch_phone",
           "complements",
+          "opening_hours",
+          "closing_hours",
           "user",
+          "clients",
           "services",
           "id",
           "createdAt",
@@ -1640,6 +2160,16 @@
             "type": "string",
             "description": "Information additional of the branch."
           },
+          "opening_hours": {
+            "type": "string",
+            "description": "Start of branch office hours",
+            "example": "08:00"
+          },
+          "closing_hours": {
+            "type": "string",
+            "description": "End of branch office hours",
+            "example": "08:00"
+          },
           "user_id": {
             "type": "number",
             "description": "Affiliate user id (owner).",
@@ -1662,6 +2192,8 @@
           "city",
           "district",
           "local_number",
+          "opening_hours",
+          "closing_hours",
           "user_id"
         ]
       },
@@ -1707,6 +2239,16 @@
           "complements": {
             "type": "string",
             "description": "Information additional of the branch."
+          },
+          "opening_hours": {
+            "type": "string",
+            "description": "Start of branch office hours",
+            "example": "08:00"
+          },
+          "closing_hours": {
+            "type": "string",
+            "description": "End of branch office hours",
+            "example": "08:00"
           },
           "user_id": {
             "type": "number",
@@ -1786,6 +2328,84 @@
           "user_id": {
             "type": "number",
             "description": "Affiliate user id (owner).",
+            "example": 1
+          }
+        }
+      },
+      "CreateClientDto": {
+        "type": "object",
+        "properties": {
+          "client_name": {
+            "type": "string",
+            "description": "Name of the client.",
+            "example": "John"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "First name of the client.",
+            "example": "Doe"
+          },
+          "birth_date": {
+            "type": "string",
+            "description": "Birth date of the client.",
+            "example": "11/03/1994"
+          },
+          "client_phone": {
+            "type": "string",
+            "description": "Phone of the client.",
+            "example": "32227568"
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Is active of the client.",
+            "example": true
+          },
+          "branch_id": {
+            "type": "number",
+            "description": "Branch of the client.",
+            "example": 1
+          }
+        },
+        "required": [
+          "client_name",
+          "first_name",
+          "birth_date",
+          "client_phone",
+          "is_active",
+          "branch_id"
+        ]
+      },
+      "UpdateClientDto": {
+        "type": "object",
+        "properties": {
+          "client_name": {
+            "type": "string",
+            "description": "Name of the client.",
+            "example": "John"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "First name of the client.",
+            "example": "Doe"
+          },
+          "birth_date": {
+            "type": "string",
+            "description": "Birth date of the client.",
+            "example": "11/03/1994"
+          },
+          "client_phone": {
+            "type": "string",
+            "description": "Phone of the client.",
+            "example": "32227568"
+          },
+          "is_active": {
+            "type": "boolean",
+            "description": "Is active of the client.",
+            "example": true
+          },
+          "branch_id": {
+            "type": "number",
+            "description": "Branch of the client.",
             "example": 1
           }
         }

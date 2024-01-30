@@ -9,6 +9,7 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { DataBaseInterceptor } from '../../../http-exceptions/errors/interceptors/dataBase.interceptor';
@@ -57,7 +58,7 @@ export class BranchsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.branchsService.remove(+id);
   }
 }

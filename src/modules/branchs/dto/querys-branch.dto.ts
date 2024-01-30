@@ -12,6 +12,8 @@ const branchsSchema = z.object({
   local_number: z.string().max(10).optional(),
   branch_phone: z.string().optional().nullable(),
   complements: z.string().optional(),
+  opening_hours: z.string().length(5).min(5).max(5).optional(),
+  closing_hours: z.string().length(5).min(5).max(5).optional(),
   user_id: z.number().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
@@ -75,6 +77,18 @@ export class QuerysBranchDto extends createZodDto(branchsSchema) {
    */
   @ApiPropertyOptional()
   complements?: string;
+  /**
+   * Start of branch office hours
+   * @example 08:00
+   */
+  @ApiPropertyOptional()
+  opening_hours?: string;
+  /**
+   * End of branch office hours
+   * @example 08:00
+   */
+  @ApiPropertyOptional()
+  closing_hours?: string;
   /**
    * Owner of the branch.
    * @example 1

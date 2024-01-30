@@ -15,6 +15,8 @@ const branchsSchema = z.object({
   local_number: z.string().max(10).optional(),
   branch_phone: z.string().optional().nullable(),
   complements: z.string().max(100).optional(),
+  opening_hours: z.string().length(5).min(5).max(5).optional(),
+  closing_hours: z.string().length(5).min(5).max(5).optional(),
   user_id: z.number().optional(),
   services: z
     .array(
@@ -71,6 +73,16 @@ export class UpdateBranchDto extends createZodDto(branchsSchema) {
    * @example Next to the bookstore
    */
   complements?: string;
+  /**
+   * Start of branch office hours
+   * @example 08:00
+   */
+  opening_hours?: string;
+  /**
+   * End of branch office hours
+   * @example 08:00
+   */
+  closing_hours?: string;
   /**
    * Affiliate user id (owner).
    * @example 1

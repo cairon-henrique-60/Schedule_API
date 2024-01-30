@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Like, Repository } from 'typeorm';
+import { DeleteResult, Like, Repository } from 'typeorm';
 
 import {
   paginate,
@@ -175,7 +175,7 @@ export class UserService {
     return this.findOne(id);
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: number): Promise<DeleteResult> {
     const user = await this.findOne(id);
 
     if (!user) throw new NotFoundError('User not found!');

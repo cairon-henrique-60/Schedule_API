@@ -9,6 +9,7 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -59,7 +60,7 @@ export class ServicesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.servicesService.remove(+id);
   }
 }

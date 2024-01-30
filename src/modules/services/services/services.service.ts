@@ -8,8 +8,8 @@ import {
 } from 'nestjs-typeorm-paginate';
 
 import { User } from '../../../modules/users/entities/user.entity';
-
 import { UserService } from '../../../modules/users/service/user.service';
+
 import { Service } from '../entities/service.entity';
 
 import { CreateServiceDto } from '../dto/create-service.dto';

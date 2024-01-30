@@ -6,10 +6,12 @@ import {
   JoinColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 
 import { Base } from '../../../utils/base.entity';
 import { User } from '../../../modules/users/entities/user.entity';
+import { Client } from '../../../modules/clients/entities/client.entity';
 import { Service } from '../../../modules/services/entities/service.entity';
 
 @Entity('branchs')
@@ -47,9 +49,18 @@ export class Branch extends Base {
   @Column('varchar')
   complements: string;
 
+  @Column('varchar', { length: 5 })
+  opening_hours: string;
+
+  @Column('varchar', { length: 5 })
+  closing_hours: string;
+
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  @OneToMany(() => Client, (client) => client.branch)
+  clients: Client[];
 
   @JoinTable({
     name: 'branchs_services',

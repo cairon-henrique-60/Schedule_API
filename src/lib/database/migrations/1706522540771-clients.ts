@@ -5,11 +5,11 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class BranchsEntity1705999038931 implements MigrationInterface {
+export class Clients1706522540771 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'branchs',
+        name: 'clients',
         columns: [
           {
             name: 'id',
@@ -19,61 +19,29 @@ export class BranchsEntity1705999038931 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: 'branch_name',
+            name: 'client_name',
             type: 'varchar',
           },
           {
-            name: 'cnpj',
-            type: 'varchar',
-            isUnique: true,
-            isNullable: true,
-          },
-          {
-            name: 'street',
+            name: 'first_name',
             type: 'varchar',
           },
           {
-            name: 'cep',
-            type: 'varchar',
-            length: '8',
-          },
-          {
-            name: 'city',
+            name: 'birth_date',
             type: 'varchar',
           },
           {
-            name: 'district',
-            type: 'varchar',
-          },
-          {
-            name: 'local_number',
-            type: 'varchar',
-            length: '10',
-          },
-          {
-            name: 'branch_phone',
+            name: 'client_phone',
             type: 'varchar',
             isUnique: true,
-            isNullable: true,
           },
           {
-            name: 'complements',
-            type: 'varchar',
+            name: 'is_active',
+            type: 'boolean',
+            default: true,
           },
           {
-            name: 'opening_hours',
-            type: 'varchar',
-            length: '5',
-            default: "'08:00'",
-          },
-          {
-            name: 'closing_hours',
-            type: 'varchar',
-            length: '5',
-            default: "'17:00'",
-          },
-          {
-            name: 'user_id',
+            name: 'branch_id',
             type: 'int',
           },
           {
@@ -97,19 +65,19 @@ export class BranchsEntity1705999038931 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'branchs',
+      'clients',
       new TableForeignKey({
-        columnNames: ['user_id'],
+        columnNames: ['branch_id'],
         referencedColumnNames: ['id'],
-        referencedTableName: 'user',
+        referencedTableName: 'branchs',
         onDelete: 'CASCADE',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('branchs', 'user_id');
+    await queryRunner.dropForeignKey('clients', 'branch_id');
 
-    await queryRunner.dropTable('branchs');
+    await queryRunner.dropTable('clients');
   }
 }

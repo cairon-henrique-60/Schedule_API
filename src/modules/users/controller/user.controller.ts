@@ -9,6 +9,7 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -65,7 +66,7 @@ export class UserController {
   }
 
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id') id: string): Promise<DeleteResult> {
     return this.userService.deleteUser(+id);
   }
 }
