@@ -166,7 +166,7 @@ describe('ClientsController unit tests', () => {
   });
 
   describe('delete', () => {
-    it('should delete a branch when a valid id is provided', async () => {
+    it('should delete a clients when a valid id is provided', async () => {
       await clientController.remove(String(mockClient.id));
 
       expect(mockService.remove).toHaveBeenCalledTimes(1);
