@@ -49,6 +49,12 @@ export class Branch extends Base {
   @Column('varchar')
   complements: string;
 
+  @Column('varchar', { length: 5 })
+  opening_hours: string;
+
+  @Column('varchar', { length: 5 })
+  closing_hours: string;
+
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user: User;

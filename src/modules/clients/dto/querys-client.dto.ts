@@ -7,6 +7,7 @@ const clientsSchema = z.object({
   first_name: z.string().optional(),
   birth_date: z.string().optional(),
   branch_id: z.number().int().positive().optional(),
+  client_phone: z.string().optional(),
   is_active: z.boolean().default(true).optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
@@ -34,6 +35,12 @@ export class QuerysClientDto extends createZodDto(clientsSchema) {
    */
   @ApiPropertyOptional()
   birth_date?: string;
+  /**
+   * Phone of the client.
+   * @example 32227568
+   */
+  @ApiPropertyOptional()
+  client_phone?: string;
   /**
    * Is active of the client.
    * @example true

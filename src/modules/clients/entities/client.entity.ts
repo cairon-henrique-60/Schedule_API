@@ -15,6 +15,9 @@ export class Client extends Base {
   @Column('varchar')
   birth_date: string;
 
+  @Column('varchar')
+  client_phone: string;
+
   @Column({ type: 'boolean', default: true })
   is_active: boolean;
 

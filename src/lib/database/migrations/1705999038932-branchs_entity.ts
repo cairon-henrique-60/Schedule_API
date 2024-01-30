@@ -61,6 +61,18 @@ export class BranchsEntity1705999038931 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'opening_hours',
+            type: 'varchar',
+            length: '5',
+            default: "'08:00'",
+          },
+          {
+            name: 'closing_hours',
+            type: 'varchar',
+            length: '5',
+            default: "'17:00'",
+          },
+          {
             name: 'user_id',
             type: 'int',
           },

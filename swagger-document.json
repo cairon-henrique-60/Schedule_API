@@ -526,6 +526,26 @@
             }
           },
           {
+            "name": "opening_hours",
+            "required": false,
+            "in": "query",
+            "description": "Start of branch office hours",
+            "example": "08:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "closing_hours",
+            "required": false,
+            "in": "query",
+            "description": "End of branch office hours",
+            "example": "08:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "user_id",
             "required": false,
             "in": "query",
@@ -790,6 +810,26 @@
             "required": false,
             "in": "query",
             "description": "Information additional of the branch.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "opening_hours",
+            "required": false,
+            "in": "query",
+            "description": "Start of branch office hours",
+            "example": "08:00",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "closing_hours",
+            "required": false,
+            "in": "query",
+            "description": "End of branch office hours",
+            "example": "08:00",
             "schema": {
               "type": "string"
             }
@@ -1337,6 +1377,16 @@
             }
           },
           {
+            "name": "client_phone",
+            "required": false,
+            "in": "query",
+            "description": "Phone of the client.",
+            "example": "32227568",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "is_active",
             "required": false,
             "in": "query",
@@ -1452,6 +1502,16 @@
             "in": "query",
             "description": "Birth date of the client.",
             "example": "11/03/1994",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "client_phone",
+            "required": false,
+            "in": "query",
+            "description": "Phone of the client.",
+            "example": "32227568",
             "schema": {
               "type": "string"
             }
@@ -1809,6 +1869,9 @@
           "birth_date": {
             "type": "string"
           },
+          "client_phone": {
+            "type": "string"
+          },
           "is_active": {
             "type": "boolean"
           },
@@ -1837,6 +1900,7 @@
           "client_name",
           "first_name",
           "birth_date",
+          "client_phone",
           "is_active",
           "branch_id",
           "branch",
@@ -1935,6 +1999,12 @@
           "complements": {
             "type": "string"
           },
+          "opening_hours": {
+            "type": "string"
+          },
+          "closing_hours": {
+            "type": "string"
+          },
           "user": {
             "$ref": "#/components/schemas/User"
           },
@@ -1976,6 +2046,8 @@
           "local_number",
           "branch_phone",
           "complements",
+          "opening_hours",
+          "closing_hours",
           "user",
           "clients",
           "services",
@@ -2088,6 +2160,16 @@
             "type": "string",
             "description": "Information additional of the branch."
           },
+          "opening_hours": {
+            "type": "string",
+            "description": "Start of branch office hours",
+            "example": "08:00"
+          },
+          "closing_hours": {
+            "type": "string",
+            "description": "End of branch office hours",
+            "example": "08:00"
+          },
           "user_id": {
             "type": "number",
             "description": "Affiliate user id (owner).",
@@ -2110,6 +2192,8 @@
           "city",
           "district",
           "local_number",
+          "opening_hours",
+          "closing_hours",
           "user_id"
         ]
       },
@@ -2155,6 +2239,16 @@
           "complements": {
             "type": "string",
             "description": "Information additional of the branch."
+          },
+          "opening_hours": {
+            "type": "string",
+            "description": "Start of branch office hours",
+            "example": "08:00"
+          },
+          "closing_hours": {
+            "type": "string",
+            "description": "End of branch office hours",
+            "example": "08:00"
           },
           "user_id": {
             "type": "number",
@@ -2256,6 +2350,11 @@
             "description": "Birth date of the client.",
             "example": "11/03/1994"
           },
+          "client_phone": {
+            "type": "string",
+            "description": "Phone of the client.",
+            "example": "32227568"
+          },
           "is_active": {
             "type": "boolean",
             "description": "Is active of the client.",
@@ -2271,6 +2370,7 @@
           "client_name",
           "first_name",
           "birth_date",
+          "client_phone",
           "is_active",
           "branch_id"
         ]
@@ -2292,6 +2392,11 @@
             "type": "string",
             "description": "Birth date of the client.",
             "example": "11/03/1994"
+          },
+          "client_phone": {
+            "type": "string",
+            "description": "Phone of the client.",
+            "example": "32227568"
           },
           "is_active": {
             "type": "boolean",

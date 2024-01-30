@@ -31,6 +31,11 @@ export class Clients1706522540771 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'client_phone',
+            type: 'varchar',
+            isUnique: true,
+          },
+          {
             name: 'is_active',
             type: 'boolean',
             default: true,

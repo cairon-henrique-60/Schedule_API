@@ -5,6 +5,7 @@ const clientsSchema = z.object({
   client_name: z.string().optional(),
   first_name: z.string().optional(),
   birth_date: z.string().optional(),
+  client_phone: z.string().optional(),
   is_active: z.boolean().default(true).optional(),
   branch_id: z.number().int().positive().optional(),
 });
@@ -25,6 +26,11 @@ export class UpdateClientDto extends createZodDto(clientsSchema) {
    * @example 11/03/1994
    */
   birth_date?: string;
+  /**
+   * Phone of the client.
+   * @example 32227568
+   */
+  client_phone?: string;
   /**
    * Is active of the client.
    * @example true

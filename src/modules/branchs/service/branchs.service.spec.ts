@@ -74,9 +74,13 @@ describe('BranchsService unit tests', () => {
   mockBranch.local_number = '230B';
   mockBranch.branch_phone = '32227460';
   mockBranch.complements = 'Main Street';
+  mockBranch.opening_hours = '08:00';
+  mockBranch.closing_hours = '18:00';
   mockBranch.user = mockUser;
   mockBranch.clients = [mockClient];
   mockBranch.services = [mockServicesEntity];
+  mockBranch.clients = [mockClient];
+
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -194,6 +198,8 @@ describe('BranchsService unit tests', () => {
         local_number: mockBranch.local_number,
         branch_phone: mockBranch.branch_phone,
         complements: mockBranch.complements,
+        opening_hours: mockBranch.opening_hours,
+        closing_hours: mockBranch.closing_hours,
         user_id: mockBranch.user_id,
         createdAt: '2022-01-01',
         updatedAt: '2022-01-02',
@@ -211,6 +217,8 @@ describe('BranchsService unit tests', () => {
           updatedAt: Like(`%${params.updatedAt}%`),
           complements: Like(`%${params.complements}%`),
           user_id: Like(`%${params.user_id}%`),
+          closing_hours: Like(`%${params.closing_hours}%`),
+          opening_hours: Like(`%${params.opening_hours}%`),
           local_number: Like(`%${params.local_number}%`),
           branch_phone: Like(`%${params.branch_phone}%`),
           district: Like(`%${params.district}%`),
@@ -239,6 +247,8 @@ describe('BranchsService unit tests', () => {
       local_number: '230B',
       branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
+      opening_hours: '08:00',
+      closing_hours: '18:00',
       user_id: 1,
       services: [
         {
@@ -258,6 +268,8 @@ describe('BranchsService unit tests', () => {
         local_number: '230B',
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
+        opening_hours: '08:00',
+        closing_hours: '18:00',
         user_id: 1,
         services: [
           {
@@ -289,6 +301,8 @@ describe('BranchsService unit tests', () => {
         local_number: '230B',
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
+        opening_hours: '08:00',
+        closing_hours: '18:00',
         user_id: 1,
         services: [
           {
@@ -338,6 +352,8 @@ describe('BranchsService unit tests', () => {
       local_number: '230B',
       branch_phone: '32227460',
       complements: 'Ao lado de uma casa',
+      opening_hours: '08:00',
+      closing_hours: '18:00',
       user_id: 1,
       services: [
         {
@@ -370,6 +386,8 @@ describe('BranchsService unit tests', () => {
         local_number: '230B',
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
+        opening_hours: '08:00',
+        closing_hours: '18:00',
         user_id: 500,
         services: [
           {
@@ -400,6 +418,8 @@ describe('BranchsService unit tests', () => {
         local_number: '230B',
         branch_phone: '32227460',
         complements: 'Ao lado de uma casa',
+        opening_hours: '08:00',
+        closing_hours: '18:00',
         user_id: 1,
         services: [
           {
