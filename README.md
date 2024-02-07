@@ -97,6 +97,9 @@ $ docker stop id_container
 
 # destroy
 $ docker-compose down -v
+
+# data-base bash
+$ docker compose exec db bash
 ```
 
 ## Support
