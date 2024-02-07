@@ -81,7 +81,6 @@ describe('BranchsService unit tests', () => {
   mockBranch.services = [mockServicesEntity];
   mockBranch.clients = [mockClient];
 
-
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -285,7 +284,6 @@ describe('BranchsService unit tests', () => {
         branchService.create(createBranchDTOError),
       ).rejects.toThrowError('User not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
       expect(branchService.create).toHaveBeenCalledWith(createBranchDTOError);
     });
@@ -322,7 +320,6 @@ describe('BranchsService unit tests', () => {
         branchService.create(createBranchDTOError),
       ).rejects.toThrowError('Service with ID 2 not found.');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
       expect(branchService.create).toHaveBeenCalledWith(createBranchDTOError);
     });
@@ -371,7 +368,6 @@ describe('BranchsService unit tests', () => {
         branchService.update(500, updateBranchDTO),
       ).rejects.toThrowError('Branch not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
     });
 

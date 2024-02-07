@@ -19,6 +19,8 @@ import { Service } from '../../../modules/services/entities/service.entity';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 
+import { ICreateBranchData, IUpdateBranchData } from '../types/branch.types';
+
 interface IService {
   id: number;
 }
@@ -121,29 +123,49 @@ export class BranchsService {
 
     const { services } = createBranchDto;
 
-    const createdBranch = this.branchsRepository.create({
-      ...createBranchDto,
+    const createdBranch: ICreateBranchData = {
+      branch_name: createBranchDto.branch_name,
+      cnpj: createBranchDto.branch_phone,
+      street: createBranchDto.street,
+      cep: createBranchDto.cep,
+      city: createBranchDto.city,
+      user_id: createBranchDto.user_id,
+      district: createBranchDto.district,
+      local_number: createBranchDto.local_number,
+      branch_phone: createBranchDto.branch_name,
+      complements: createBranchDto.complements,
+      opening_hours: createBranchDto.opening_hours,
+      closing_hours: createBranchDto.closing_hours,
       services: await this.verifyServices(services),
-    });
+    };
 
-    const newBranch = await this.branchsRepository.save(createdBranch);
+    const branch = Branch.create(createdBranch);
+
+    const newBranch = await this.branchsRepository.save(branch);
 
     return this.findOne(newBranch.id);
   }
 
   async update(id: number, updateBranchDto: UpdateBranchDto): Promise<Branch> {
-    await this.findOne(id);
+    const existingBranch = await this.findOne(id);
+
+    if (updateBranchDto.user_id) {
+      await this.userServive.findOne(+updateBranchDto.user_id);
+    }
 
     const { services, ...rest } = updateBranchDto;
 
-    if (updateBranchDto.user_id) {
-      await this.userServive.findOne(+rest.user_id);
-    }
-
-    await this.branchsRepository.update(id, {
+    const updatedBranchData: IUpdateBranchData = {
+      ...existingBranch,
       ...rest,
+      opening_hours: updateBranchDto.opening_hours,
+      closing_hours: updateBranchDto.closing_hours,
       services: services && (await this.verifyServices(services)),
-    });
+    };
+
+    const updatedBranch = Branch.update(updatedBranchData);
+
+    await this.branchsRepository.save(updatedBranch);
 
     return this.findOne(id);
   }
