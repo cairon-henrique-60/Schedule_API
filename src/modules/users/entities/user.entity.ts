@@ -61,10 +61,7 @@ export class User extends Base {
       if (!isMatch) {
         throw new UnauthorizedError('Password is not valid');
       }
-    } else if (
-      current_password !== undefined ||
-      rest.password !== undefined
-    ) {
+    } else if (current_password !== undefined || rest.password !== undefined) {
       throw new BadRequestError(
         'Both current_password and password are required!',
       );
