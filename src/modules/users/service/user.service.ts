@@ -7,7 +7,6 @@ import {
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
 
-
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 
 import { User } from '../entities/user.entity';
@@ -69,6 +68,12 @@ export class UserService {
         'updatedAt',
       ],
       relations: ['branchs'],
+      join: {
+        alias: 'user',
+        leftJoinAndSelect: {
+          branchs: 'user.branchs',
+        },
+      },
     });
 
     if (!user) {
@@ -112,6 +117,12 @@ export class UserService {
       ],
       where: whereClause,
       relations: ['branchs'],
+      join: {
+        alias: 'user',
+        leftJoinAndSelect: {
+          branchs: 'user.branchs',
+        },
+      },
     });
   }
 
