@@ -22,7 +22,6 @@ describe('UserService unit tests', () => {
     createQueryBuilder: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
-    save: jest.fn(),
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
@@ -249,7 +248,6 @@ describe('UserService unit tests', () => {
         'Email already exists',
       );
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
       expect(userService.createUser).toHaveBeenCalledTimes(1);
 
@@ -265,7 +263,6 @@ describe('UserService unit tests', () => {
         'Phone number already exists',
       );
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
       expect(userService.createUser).toHaveBeenCalledTimes(1);
 
