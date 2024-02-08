@@ -137,6 +137,12 @@ describe('UserService unit tests', () => {
           'updatedAt',
         ],
         relations: ['branchs'],
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: {
+            branchs: 'user.branchs',
+          },
+        },
       });
     });
 
@@ -224,6 +230,12 @@ describe('UserService unit tests', () => {
           user_name: Like(`%${params.user_name}%`),
         },
         relations: ['branchs'],
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: {
+            branchs: 'user.branchs',
+          },
+        },
       });
 
       expect(result).toEqual([]);
@@ -432,6 +444,12 @@ describe('UserService unit tests', () => {
         ],
         where: { id: 500 },
         relations: ['branchs'],
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: {
+            branchs: 'user.branchs',
+          },
+        },
       });
 
       expect(mockService.delete).not.toHaveBeenCalled();
@@ -458,6 +476,12 @@ describe('UserService unit tests', () => {
         ],
         where: { id: mockUser.id },
         relations: ['branchs'],
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: {
+            branchs: 'user.branchs',
+          },
+        },
       });
 
       expect(mockService.delete).toHaveBeenCalledTimes(1);
