@@ -23,7 +23,6 @@ describe('ServicesService unit tests', () => {
     createQueryBuilder: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
-    save: jest.fn(),
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
@@ -233,7 +232,6 @@ describe('ServicesService unit tests', () => {
         servicesService.create(createBranchDTOError),
       ).rejects.toThrowError('User not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
       expect(servicesService.create).toHaveBeenCalledWith(createBranchDTOError);
     });
@@ -271,7 +269,6 @@ describe('ServicesService unit tests', () => {
         servicesService.update(500, updateServiceDTO),
       ).rejects.toThrowError('Service not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
     });
 
