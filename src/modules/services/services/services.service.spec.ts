@@ -148,6 +148,12 @@ describe('ServicesService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: 500 },
         relations: ['user', 'branchs'],
+        join: {
+          alias: 'services',
+          leftJoinAndSelect: {
+            branchs: 'services.branchs',
+          },
+        },
       });
     });
 
@@ -190,6 +196,12 @@ describe('ServicesService unit tests', () => {
           user_id: Like(`%${params.user_id}%`),
         },
         relations: ['user', 'branchs'],
+        join: {
+          alias: 'services',
+          leftJoinAndSelect: {
+            branchs: 'services.branchs',
+          },
+        },
       });
 
       expect(result).toEqual([]);
@@ -331,6 +343,12 @@ describe('ServicesService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: mockServicesEntity.id },
         relations: ['user', 'branchs'],
+        join: {
+          alias: 'services',
+          leftJoinAndSelect: {
+            branchs: 'services.branchs',
+          },
+        },
       });
 
       expect(mockService.delete).toHaveBeenCalledTimes(1);
