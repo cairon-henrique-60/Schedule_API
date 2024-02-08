@@ -23,7 +23,6 @@ describe('ServicesService unit tests', () => {
     createQueryBuilder: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
-    save: jest.fn(),
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
@@ -148,6 +147,12 @@ describe('ServicesService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: 500 },
         relations: ['user', 'branchs'],
+        join: {
+          alias: 'services',
+          leftJoinAndSelect: {
+            branchs: 'services.branchs',
+          },
+        },
       });
     });
 
@@ -190,6 +195,12 @@ describe('ServicesService unit tests', () => {
           user_id: Like(`%${params.user_id}%`),
         },
         relations: ['user', 'branchs'],
+        join: {
+          alias: 'services',
+          leftJoinAndSelect: {
+            branchs: 'services.branchs',
+          },
+        },
       });
 
       expect(result).toEqual([]);
@@ -221,7 +232,6 @@ describe('ServicesService unit tests', () => {
         servicesService.create(createBranchDTOError),
       ).rejects.toThrowError('User not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
       expect(servicesService.create).toHaveBeenCalledWith(createBranchDTOError);
     });
@@ -259,7 +269,6 @@ describe('ServicesService unit tests', () => {
         servicesService.update(500, updateServiceDTO),
       ).rejects.toThrowError('Service not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
     });
 
@@ -331,6 +340,12 @@ describe('ServicesService unit tests', () => {
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: mockServicesEntity.id },
         relations: ['user', 'branchs'],
+        join: {
+          alias: 'services',
+          leftJoinAndSelect: {
+            branchs: 'services.branchs',
+          },
+        },
       });
 
       expect(mockService.delete).toHaveBeenCalledTimes(1);

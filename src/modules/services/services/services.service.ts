@@ -17,6 +17,7 @@ import { UpdateServiceDto } from '../dto/update-service.dto';
 import { QuerysServiceDto } from '../dto/querys-service.dto';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
+import { ICreateServiceData, IUpdateServiceData } from '../types/services.type';
 
 @Injectable()
 export class ServicesService {
@@ -61,6 +62,12 @@ export class ServicesService {
     const services = await this.serviceRepository.find({
       where: whereClause,
       relations: ['user', 'branchs'],
+      join: {
+        alias: 'services',
+        leftJoinAndSelect: {
+          branchs: 'services.branchs',
+        },
+      },
     });
 
     const mappedServices = services.map((service) =>
@@ -74,6 +81,12 @@ export class ServicesService {
     const service = await this.serviceRepository.findOne({
       where: { id },
       relations: ['user', 'branchs'],
+      join: {
+        alias: 'services',
+        leftJoinAndSelect: {
+          branchs: 'services.branchs',
+        },
+      },
     });
 
     if (!service) {
@@ -87,9 +100,13 @@ export class ServicesService {
   async create(createServiceDto: CreateServiceDto): Promise<Service> {
     await this.userService.findOne(createServiceDto.user_id);
 
-    const service = this.serviceRepository.create(createServiceDto);
+    const serviceItem: ICreateServiceData = {
+      ...createServiceDto,
+    };
 
-    const createdService = await this.serviceRepository.save(service);
+    const newService = Service.create(serviceItem);
+
+    const createdService = await this.serviceRepository.save(newService);
 
     return this.findOne(createdService.id);
   }
@@ -98,18 +115,21 @@ export class ServicesService {
     id: number,
     updateServiceDto: UpdateServiceDto,
   ): Promise<Service> {
-    const existingService = await this.findOne(id);
+    await this.findOne(id);
 
     if (updateServiceDto.user_id) {
       await this.userService.findOne(updateServiceDto.user_id);
-      existingService.user_id = updateServiceDto.user_id;
     }
 
-    Object.assign(existingService, updateServiceDto);
+    const serviceItem: IUpdateServiceData = {
+      ...updateServiceDto,
+    };
 
-    await this.serviceRepository.save(existingService);
+    const newService = Service.update(serviceItem);
 
-    return this.mapServiceResponse(existingService);
+    await this.serviceRepository.update(id, newService);
+
+    return this.findOne(id);
   }
 
   async remove(id: number): Promise<DeleteResult> {

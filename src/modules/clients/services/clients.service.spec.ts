@@ -161,6 +161,12 @@ describe('ClientsService', () => {
           client_name: Like(`%${params.client_name}%`),
         },
         relations: ['branch'],
+        join: {
+          alias: 'clients',
+          leftJoinAndSelect: {
+            branchs: 'clients.branch',
+          },
+        },
       });
 
       expect(result).toEqual([]);
@@ -181,6 +187,12 @@ describe('ClientsService', () => {
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: 500 },
         relations: ['branch'],
+        join: {
+          alias: 'clients',
+          leftJoinAndSelect: {
+            branchs: 'clients.branch',
+          },
+        },
       });
     });
 
@@ -332,6 +344,12 @@ describe('ClientsService', () => {
       expect(mockService.findOne).toHaveBeenCalledWith({
         where: { id: mockClient.id },
         relations: ['branch'],
+        join: {
+          alias: 'clients',
+          leftJoinAndSelect: {
+            branchs: 'clients.branch',
+          },
+        },
       });
 
       expect(mockService.delete).toHaveBeenCalledTimes(1);

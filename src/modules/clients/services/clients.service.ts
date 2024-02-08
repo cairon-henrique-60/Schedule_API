@@ -49,6 +49,12 @@ export class ClientsService {
     return await this.clientRepository.find({
       where: whereClause,
       relations: ['branch'],
+      join: {
+        alias: 'clients',
+        leftJoinAndSelect: {
+          branchs: 'clients.branch',
+        },
+      },
     });
   }
 
@@ -56,6 +62,12 @@ export class ClientsService {
     const client = await this.clientRepository.findOne({
       where: { id },
       relations: ['branch'],
+      join: {
+        alias: 'clients',
+        leftJoinAndSelect: {
+          branchs: 'clients.branch',
+        },
+      },
     });
 
     if (!client) {

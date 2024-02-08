@@ -24,7 +24,9 @@ export class ServicesEntity1706349628579 implements MigrationInterface {
           },
           {
             name: 'service_value',
-            type: 'int',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
           },
           {
             name: 'expected_time',
