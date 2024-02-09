@@ -15,6 +15,7 @@ import { UpdateClientDto } from '../dto/update-client.dto';
 import { QuerysClientDto } from '../dto/querys-client.dto';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
+import { ICreateClientData, IUpdateClientData } from '../types/clients.type';
 
 @Injectable()
 export class ClientsService {
@@ -80,9 +81,13 @@ export class ClientsService {
   async create(createClientDto: CreateClientDto) {
     await this.branchsService.findOne(createClientDto.branch_id);
 
-    const client = this.clientRepository.create(createClientDto);
+    const clientItem: ICreateClientData = {
+      ...createClientDto,
+    };
 
-    const createClient = await this.clientRepository.save(client);
+    const newClient = Client.create(clientItem);
+
+    const createClient = await this.clientRepository.save(newClient);
 
     return this.findOne(createClient.id);
   }
@@ -94,7 +99,13 @@ export class ClientsService {
       this.branchsService.findOne(updateClientDto.branch_id);
     }
 
-    await this.clientRepository.update(id, updateClientDto);
+    const clientItem: IUpdateClientData = {
+      ...updateClientDto,
+    };
+
+    const newClient = Client.update(clientItem);
+
+    await this.clientRepository.update(id, newClient);
 
     return this.findOne(id);
   }
