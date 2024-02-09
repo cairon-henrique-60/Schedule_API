@@ -24,7 +24,6 @@ describe('ClientsService', () => {
     createQueryBuilder: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
-    save: jest.fn(),
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
@@ -234,7 +233,6 @@ describe('ClientsService', () => {
         clientService.create(createClinetDTOError),
       ).rejects.toThrowError('Branch not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
       expect(clientService.create).toHaveBeenCalledWith(createClinetDTOError);
     });
@@ -271,7 +269,6 @@ describe('ClientsService', () => {
         clientService.update(500, updateClientDTO),
       ).rejects.toThrowError('Client not found!');
 
-      expect(mockService.save).toHaveBeenCalledTimes(0);
       expect(mockService.create).toHaveBeenCalledTimes(0);
     });
 
