@@ -1749,6 +1749,36 @@
           }
         ]
       }
+    },
+    "/schedule/upload/photo": {
+      "post": {
+        "operationId": "UploadPhotoController_uploadFile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "File to be sent",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "upload-photos"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "info": {
@@ -1776,6 +1806,10 @@
     },
     {
       "name": "clients",
+      "description": ""
+    },
+    {
+      "name": "upload-photos",
       "description": ""
     }
   ],
@@ -2409,6 +2443,48 @@
             "example": 1
           }
         }
+      },
+      "CreateUploadDto": {
+        "type": "object",
+        "properties": {
+          "fieldname": {
+            "type": "string",
+            "description": "Field name of the file.",
+            "example": "file"
+          },
+          "originalname": {
+            "type": "string",
+            "description": "Original name of the file.",
+            "example": "ArquivoPadrao - Copia.xlsx"
+          },
+          "encoding": {
+            "type": "string",
+            "description": "Encoding of the file.",
+            "example": "7bit"
+          },
+          "mimetype": {
+            "type": "string",
+            "description": "MIME type of the file.",
+            "example": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          },
+          "buffer": {
+            "type": "object",
+            "description": "Buffer containing the file data."
+          },
+          "size": {
+            "type": "number",
+            "description": "Size of the file in bytes.",
+            "example": 45100
+          }
+        },
+        "required": [
+          "fieldname",
+          "originalname",
+          "encoding",
+          "mimetype",
+          "buffer",
+          "size"
+        ]
       }
     }
   }

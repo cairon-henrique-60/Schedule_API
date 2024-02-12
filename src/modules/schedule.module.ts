@@ -8,6 +8,7 @@ import { BranchsModule } from './branchs/branchs.module';
 import { ConfigAppModule } from './config/configAPP.module';
 import { ServicesModule } from './services/services.module';
 import { ClientsModule } from './clients/clients.module';
+import { UploadPhotoModule } from './upload/upload-photo/upload-photo.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ClientsModule } from './clients/clients.module';
     DatabaseModule,
     ConfigAppModule,
     ClientsModule,
+    UploadPhotoModule,
   ],
 })
 export class ScheduleModule {}
