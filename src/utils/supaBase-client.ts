@@ -1,11 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
-import { ENV_VARIABLES } from 'src/config/env.config';
+import { ENV_VARIABLES } from '../config/env.config';
 
 import { BadRequestError } from '../http-exceptions/errors/types/BadRequestError';
 
 const supabaseUrl = ENV_VARIABLES.SUPA_BASE_URL;
 const supabaseKey = ENV_VARIABLES.SUPA_BASE_KEY;
+const expireUrl = ENV_VARIABLES.SUPA_BASE_EXPIRING_URL;
 
 const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
@@ -24,7 +25,7 @@ async function uploadFileWithSignedUrl(originalname: string, buffer: Buffer) {
 
   const signedUrl = await supabase.storage
     .from('scheduleStorage')
-    .createSignedUrl(originalname, 730);
+    .createSignedUrl(originalname, +expireUrl);
 
   return { data, signedUrl: signedUrl.data.signedUrl };
 }

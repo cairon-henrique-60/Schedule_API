@@ -13,6 +13,7 @@ export const envSchema = z.object({
   JWT_EXPIRES_IN: z.string(),
   SUPA_BASE_URL: z.string(),
   SUPA_BASE_KEY: z.string(),
+  SUPA_BASE_EXPIRING_URL: z.string(),
 });
 
 export type EnvType = z.infer<typeof envSchema>;

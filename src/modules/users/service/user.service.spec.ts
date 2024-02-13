@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Like } from 'typeorm';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 import { BadRequestError } from '../../../http-exceptions/errors/types/BadRequestError';
@@ -9,7 +10,6 @@ import { Branch } from '../../../modules/branchs/entities/branch.entity';
 import { UserService } from './user.service';
 import { User } from '../entities/user.entity';
 import { QueryUserDTO } from '../dto/querys-user.dto';
-import { Like } from 'typeorm';
 
 jest.mock('nestjs-typeorm-paginate');
 
