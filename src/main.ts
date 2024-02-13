@@ -1,16 +1,17 @@
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
+import configSwagger from 'src/swagger/swagger.config';
 
 import { ENV_VARIABLES } from 'src/config/env.config';
 
 import * as fs from 'fs';
 
 import { UnauthorizedInterceptor } from 'src/http-exceptions/errors/interceptors/unauthorized.interceptor';
+import { BadRequestInterceptor } from './http-exceptions/errors/interceptors/badRequest.interceptor';
 import { NotFoundInterceptor } from 'src/http-exceptions/errors/interceptors/notFound.interceptor';
 import { DataBaseInterceptor } from './http-exceptions/errors/interceptors/dataBase.interceptor';
 
 import { AppModule } from './app.module';
-import { BadRequestInterceptor } from './http-exceptions/errors/interceptors/badRequest.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,19 +36,8 @@ async function bootstrap() {
      * Swagger
      * -----------------------------------------------------------------------------
      */
-    const config = new DocumentBuilder()
-      .setTitle('Schedule API example')
-      .setDescription('The schedule API description')
-      .setVersion('0.0.1')
-      .addTag('auth')
-      .addTag('user')
-      .addTag('branchs')
-      .addTag('services')
-      .addTag('clients')
-      .addTag('upload-photos')
-      .addBearerAuth()
-      .build();
-    const document = SwaggerModule.createDocument(app, config);
+
+    const document = SwaggerModule.createDocument(app, configSwagger);
 
     /**
      * -----------------------------------------------------------------------------

@@ -2,11 +2,11 @@ import {
   Controller,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 
 import { UploadPhotoService } from '../service/upload-photo.service';
 
@@ -27,6 +27,18 @@ export class UploadPhotoController {
   })
   async uploadFile(@UploadedFile() file: CreateUploadDto) {
     const result = await this.uploadPhotoService.upload(file);
+    return result;
+  }
+
+  @Post('bulk')
+  @UseInterceptors(FilesInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Array of files to be uploaded',
+    type: [CreateUploadDto],
+  })
+  async uploadBulkFiles(@UploadedFiles() file: CreateUploadDto[]) {
+    const result = await this.uploadPhotoService.bulkUpload(file);
     return result;
   }
 }

@@ -1779,6 +1779,39 @@
           }
         ]
       }
+    },
+    "/schedule/upload/photo/bulk": {
+      "post": {
+        "operationId": "UploadPhotoController_uploadBulkFiles",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Array of files to be uploaded",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateUploadDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "upload-photos"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
     }
   },
   "info": {
