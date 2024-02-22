@@ -9,6 +9,7 @@ import { ConfigAppModule } from './config/configAPP.module';
 import { ServicesModule } from './services/services.module';
 import { ClientsModule } from './clients/clients.module';
 import { UploadPhotoModule } from './upload/upload-photo/upload-photo.module';
+import { UserPhotoModule } from './user-photo/user-photo.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UploadPhotoModule } from './upload/upload-photo/upload-photo.module';
     ConfigAppModule,
     ClientsModule,
     UploadPhotoModule,
+    UserPhotoModule,
   ],
 })
 export class ScheduleModule {}

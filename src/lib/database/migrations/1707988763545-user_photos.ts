@@ -1,40 +1,33 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export class Attachments1707694708268 implements MigrationInterface {
+export class UserPhotos1707988763545 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.createTable(
+    queryRunner.createTable(
       new Table({
-        name: 'attachments',
+        name: 'userPhoto',
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'integer',
             isGenerated: true,
             generationStrategy: 'increment',
             isPrimary: true,
           },
           {
-            name: 'file_name',
+            name: 'original_name',
             type: 'varchar',
-          },
-          {
-            name: 'file_url',
-            type: 'varchar',
-          },
-          {
-            name: 'type',
-            type: 'varchar',
-            isNullable: true,
-          },
-          {
-            name: 'note',
-            type: 'varchar',
-            isNullable: true,
           },
           {
             name: 'size',
             type: 'float',
-            isNullable: true,
+          },
+          {
+            name: 'url',
+            type: 'longtext',
+          },
+          {
+            name: 'user_id',
+            type: 'int',
           },
           {
             name: 'createdAt',
@@ -55,9 +48,19 @@ export class Attachments1707694708268 implements MigrationInterface {
         ],
       }),
     );
+
+    await queryRunner.createForeignKey(
+      'userPhoto',
+      new TableForeignKey({
+        columnNames: ['user_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'user',
+        onDelete: 'CASCADE',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('attachments');
+    queryRunner.dropTable('userPhoto');
   }
 }

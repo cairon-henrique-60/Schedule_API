@@ -10,6 +10,7 @@ const configSwagger = new DocumentBuilder()
   .addTag('services')
   .addTag('clients')
   .addTag('upload-photos')
+  .addTag('upload-photos-user')
   .addBearerAuth()
   .build();
 
