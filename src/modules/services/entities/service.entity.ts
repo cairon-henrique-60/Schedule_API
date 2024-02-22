@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToMany,
-  ManyToOne,
-} from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
 
 import { BadRequestError } from '../../../http-exceptions/errors/types/BadRequestError';
 
@@ -19,7 +12,7 @@ const isValidExpectTime = (time: string): string | null => {
   const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
 
   if (!timeRegex.test(time)) {
-    throw new BadRequestError(`Format time ${time} invalid`);
+    throw new BadRequestError(`Format time ${time} invalid: Exemple: 00:25`);
   } else {
     return time;
   }
