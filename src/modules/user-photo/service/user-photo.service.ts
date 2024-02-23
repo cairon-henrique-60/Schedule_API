@@ -1,4 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 import { DeleteResult, Like, Repository } from 'typeorm';
 
 import { UserService } from '../../../modules/users/service/user.service';
@@ -11,11 +16,6 @@ import { UserPhoto } from '../entities/user-photo.entity';
 
 import { NotFoundError } from '../../../http-exceptions/errors/types/NotFoundError';
 import { ICreateUserPhoto, IUpdateUserPhoto } from '../types/user-photo.types';
-import {
-  IPaginationOptions,
-  Pagination,
-  paginate,
-} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserPhotoService {
